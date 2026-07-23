@@ -1,0 +1,58 @@
+{
+  "version": 2,
+  "dgSpecHash": "RretCOUiAwE=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\cihan\\Documents\\GitHub\\Microservice-Ecommerce\\src\\BuildingBlocks\\Shared.Infrastructure\\Shared.Infrastructure.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\cihan\\.nuget\\packages\\masstransit\\9.1.2\\masstransit.9.1.2.nupkg.sha512",
+    "C:\\Users\\cihan\\.nuget\\packages\\masstransit.abstractions\\9.1.2\\masstransit.abstractions.9.1.2.nupkg.sha512",
+    "C:\\Users\\cihan\\.nuget\\packages\\masstransit.rabbitmq\\9.1.2\\masstransit.rabbitmq.9.1.2.nupkg.sha512",
+    "C:\\Users\\cihan\\.nuget\\packages\\microsoft.aspnetcore.http.abstractions\\2.3.11\\microsoft.aspnetcore.http.abstractions.2.3.11.nupkg.sha512",
+    "C:\\Users\\cihan\\.nuget\\packages\\microsoft.extensions.dependencymodel\\10.0.0\\microsoft.extensions.dependencymodel.10.0.0.nupkg.sha512",
+    "C:\\Users\\cihan\\.nuget\\packages\\microsoft.extensions.diagnostics.healthchecks\\10.0.10\\microsoft.extensions.diagnostics.healthchecks.10.0.10.nupkg.sha512",
+    "C:\\Users\\cihan\\.nuget\\packages\\opentelemetry\\1.17.0\\opentelemetry.1.17.0.nupkg.sha512",
+    "C:\\Users\\cihan\\.nuget\\packages\\opentelemetry.api\\1.17.0\\opentelemetry.api.1.17.0.nupkg.sha512",
+    "C:\\Users\\cihan\\.nuget\\packages\\opentelemetry.api.providerbuilderextensions\\1.17.0\\opentelemetry.api.providerbuilderextensions.1.17.0.nupkg.sha512",
+    "C:\\Users\\cihan\\.nuget\\packages\\opentelemetry.exporter.console\\1.17.0\\opentelemetry.exporter.console.1.17.0.nupkg.sha512",
+    "C:\\Users\\cihan\\.nuget\\packages\\opentelemetry.exporter.opentelemetryprotocol\\1.17.0\\opentelemetry.exporter.opentelemetryprotocol.1.17.0.nupkg.sha512",
+    "C:\\Users\\cihan\\.nuget\\packages\\opentelemetry.extensions.hosting\\1.17.0\\opentelemetry.extensions.hosting.1.17.0.nupkg.sha512",
+    "C:\\Users\\cihan\\.nuget\\packages\\opentelemetry.instrumentation.aspnetcore\\1.17.0\\opentelemetry.instrumentation.aspnetcore.1.17.0.nupkg.sha512",
+    "C:\\Users\\cihan\\.nuget\\packages\\opentelemetry.instrumentation.http\\1.17.0\\opentelemetry.instrumentation.http.1.17.0.nupkg.sha512",
+    "C:\\Users\\cihan\\.nuget\\packages\\rabbitmq.client\\7.2.1\\rabbitmq.client.7.2.1.nupkg.sha512",
+    "C:\\Users\\cihan\\.nuget\\packages\\serilog\\4.3.0\\serilog.4.3.0.nupkg.sha512",
+    "C:\\Users\\cihan\\.nuget\\packages\\serilog.aspnetcore\\10.0.0\\serilog.aspnetcore.10.0.0.nupkg.sha512",
+    "C:\\Users\\cihan\\.nuget\\packages\\serilog.extensions.hosting\\10.0.0\\serilog.extensions.hosting.10.0.0.nupkg.sha512",
+    "C:\\Users\\cihan\\.nuget\\packages\\serilog.extensions.logging\\10.0.0\\serilog.extensions.logging.10.0.0.nupkg.sha512",
+    "C:\\Users\\cihan\\.nuget\\packages\\serilog.formatting.compact\\3.0.0\\serilog.formatting.compact.3.0.0.nupkg.sha512",
+    "C:\\Users\\cihan\\.nuget\\packages\\serilog.settings.configuration\\10.0.0\\serilog.settings.configuration.10.0.0.nupkg.sha512",
+    "C:\\Users\\cihan\\.nuget\\packages\\serilog.sinks.console\\6.1.1\\serilog.sinks.console.6.1.1.nupkg.sha512",
+    "C:\\Users\\cihan\\.nuget\\packages\\serilog.sinks.debug\\3.0.0\\serilog.sinks.debug.3.0.0.nupkg.sha512",
+    "C:\\Users\\cihan\\.nuget\\packages\\serilog.sinks.file\\7.0.0\\serilog.sinks.file.7.0.0.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1510",
+      "level": "Warning",
+      "message": "PackageReference Microsoft.AspNetCore.Http.Abstractions ayıklanmayacak. Bu paketi bağımlılıklarınızdan kaldırmayı düşünün, çünkü muhtemelen gereksizdir.",
+      "projectPath": "C:\\Users\\cihan\\Documents\\GitHub\\Microservice-Ecommerce\\src\\BuildingBlocks\\Shared.Infrastructure\\Shared.Infrastructure.csproj",
+      "warningLevel": 1,
+      "filePath": "C:\\Users\\cihan\\Documents\\GitHub\\Microservice-Ecommerce\\src\\BuildingBlocks\\Shared.Infrastructure\\Shared.Infrastructure.csproj",
+      "libraryId": "Microsoft.AspNetCore.Http.Abstractions",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    },
+    {
+      "code": "NU1510",
+      "level": "Warning",
+      "message": "PackageReference Microsoft.Extensions.Diagnostics.HealthChecks ayıklanmayacak. Bu paketi bağımlılıklarınızdan kaldırmayı düşünün, çünkü muhtemelen gereksizdir.",
+      "projectPath": "C:\\Users\\cihan\\Documents\\GitHub\\Microservice-Ecommerce\\src\\BuildingBlocks\\Shared.Infrastructure\\Shared.Infrastructure.csproj",
+      "warningLevel": 1,
+      "filePath": "C:\\Users\\cihan\\Documents\\GitHub\\Microservice-Ecommerce\\src\\BuildingBlocks\\Shared.Infrastructure\\Shared.Infrastructure.csproj",
+      "libraryId": "Microsoft.Extensions.Diagnostics.HealthChecks",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    }
+  ]
+}

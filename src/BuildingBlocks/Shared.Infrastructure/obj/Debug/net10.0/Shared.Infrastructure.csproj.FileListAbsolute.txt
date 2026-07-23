@@ -1,0 +1,16 @@
+C:\Users\cihan\Documents\GitHub\Microservice-Ecommerce\src\BuildingBlocks\Shared.Infrastructure\bin\Debug\net10.0\Shared.Infrastructure.deps.json
+C:\Users\cihan\Documents\GitHub\Microservice-Ecommerce\src\BuildingBlocks\Shared.Infrastructure\bin\Debug\net10.0\Shared.Infrastructure.dll
+C:\Users\cihan\Documents\GitHub\Microservice-Ecommerce\src\BuildingBlocks\Shared.Infrastructure\bin\Debug\net10.0\Shared.Infrastructure.pdb
+C:\Users\cihan\Documents\GitHub\Microservice-Ecommerce\src\BuildingBlocks\Shared.Infrastructure\bin\Debug\net10.0\Shared.Contracts.dll
+C:\Users\cihan\Documents\GitHub\Microservice-Ecommerce\src\BuildingBlocks\Shared.Infrastructure\bin\Debug\net10.0\Shared.Contracts.pdb
+C:\Users\cihan\Documents\GitHub\Microservice-Ecommerce\src\BuildingBlocks\Shared.Infrastructure\obj\Debug\net10.0\Shared.Infrastructure.csproj.AssemblyReference.cache
+C:\Users\cihan\Documents\GitHub\Microservice-Ecommerce\src\BuildingBlocks\Shared.Infrastructure\obj\Debug\net10.0\Shared.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\cihan\Documents\GitHub\Microservice-Ecommerce\src\BuildingBlocks\Shared.Infrastructure\obj\Debug\net10.0\Shared.Infrastructure.AssemblyInfoInputs.cache
+C:\Users\cihan\Documents\GitHub\Microservice-Ecommerce\src\BuildingBlocks\Shared.Infrastructure\obj\Debug\net10.0\Shared.Infrastructure.AssemblyInfo.cs
+C:\Users\cihan\Documents\GitHub\Microservice-Ecommerce\src\BuildingBlocks\Shared.Infrastructure\obj\Debug\net10.0\Shared.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\cihan\Documents\GitHub\Microservice-Ecommerce\src\BuildingBlocks\Shared.Infrastructure\obj\Debug\net10.0\Shared.Infrastructure.sourcelink.json
+C:\Users\cihan\Documents\GitHub\Microservice-Ecommerce\src\BuildingBlocks\Shared.Infrastructure\obj\Debug\net10.0\Shared.I.E63B7492.Up2Date
+C:\Users\cihan\Documents\GitHub\Microservice-Ecommerce\src\BuildingBlocks\Shared.Infrastructure\obj\Debug\net10.0\Shared.Infrastructure.dll
+C:\Users\cihan\Documents\GitHub\Microservice-Ecommerce\src\BuildingBlocks\Shared.Infrastructure\obj\Debug\net10.0\refint\Shared.Infrastructure.dll
+C:\Users\cihan\Documents\GitHub\Microservice-Ecommerce\src\BuildingBlocks\Shared.Infrastructure\obj\Debug\net10.0\Shared.Infrastructure.pdb
+C:\Users\cihan\Documents\GitHub\Microservice-Ecommerce\src\BuildingBlocks\Shared.Infrastructure\obj\Debug\net10.0\ref\Shared.Infrastructure.dll

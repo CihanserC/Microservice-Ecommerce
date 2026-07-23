@@ -1,0 +1,12 @@
+C:\Users\cihan\Documents\GitHub\Microservice-Ecommerce\src\BuildingBlocks\Shared.Contracts\bin\Debug\net10.0\Shared.Contracts.deps.json
+C:\Users\cihan\Documents\GitHub\Microservice-Ecommerce\src\BuildingBlocks\Shared.Contracts\bin\Debug\net10.0\Shared.Contracts.dll
+C:\Users\cihan\Documents\GitHub\Microservice-Ecommerce\src\BuildingBlocks\Shared.Contracts\bin\Debug\net10.0\Shared.Contracts.pdb
+C:\Users\cihan\Documents\GitHub\Microservice-Ecommerce\src\BuildingBlocks\Shared.Contracts\obj\Debug\net10.0\Shared.Contracts.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\cihan\Documents\GitHub\Microservice-Ecommerce\src\BuildingBlocks\Shared.Contracts\obj\Debug\net10.0\Shared.Contracts.AssemblyInfoInputs.cache
+C:\Users\cihan\Documents\GitHub\Microservice-Ecommerce\src\BuildingBlocks\Shared.Contracts\obj\Debug\net10.0\Shared.Contracts.AssemblyInfo.cs
+C:\Users\cihan\Documents\GitHub\Microservice-Ecommerce\src\BuildingBlocks\Shared.Contracts\obj\Debug\net10.0\Shared.Contracts.csproj.CoreCompileInputs.cache
+C:\Users\cihan\Documents\GitHub\Microservice-Ecommerce\src\BuildingBlocks\Shared.Contracts\obj\Debug\net10.0\Shared.Contracts.sourcelink.json
+C:\Users\cihan\Documents\GitHub\Microservice-Ecommerce\src\BuildingBlocks\Shared.Contracts\obj\Debug\net10.0\Shared.Contracts.dll
+C:\Users\cihan\Documents\GitHub\Microservice-Ecommerce\src\BuildingBlocks\Shared.Contracts\obj\Debug\net10.0\refint\Shared.Contracts.dll
+C:\Users\cihan\Documents\GitHub\Microservice-Ecommerce\src\BuildingBlocks\Shared.Contracts\obj\Debug\net10.0\Shared.Contracts.pdb
+C:\Users\cihan\Documents\GitHub\Microservice-Ecommerce\src\BuildingBlocks\Shared.Contracts\obj\Debug\net10.0\ref\Shared.Contracts.dll

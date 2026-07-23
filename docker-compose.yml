@@ -1,0 +1,109 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: ecommerce-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts/init-databases.sql:/docker-entrypoint-initdb.d/init-databases.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: ecommerce-redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: ecommerce-rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  catalog.api:
+    build:
+      context: .
+      dockerfile: src/Services/Catalog/Catalog.API/Dockerfile
+    container_name: catalog-api
+    environment:
+      ASPNETCORE_ENVIRONMENT: Docker
+      ConnectionStrings__Database: "Host=postgres;Port=5432;Database=catalogdb;Username=postgres;Password=postgres"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "5001:8080"
+
+  basket.api:
+    build:
+      context: .
+      dockerfile: src/Services/Basket/Basket.API/Dockerfile
+    container_name: basket-api
+    environment:
+      ASPNETCORE_ENVIRONMENT: Docker
+      ConnectionStrings__Redis: "redis:6379"
+      RabbitMq__Host: rabbitmq
+      RabbitMq__Username: guest
+      RabbitMq__Password: guest
+    depends_on:
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    ports:
+      - "5002:8080"
+
+  order.api:
+    build:
+      context: .
+      dockerfile: src/Services/Order/Order.API/Dockerfile
+    container_name: order-api
+    environment:
+      ASPNETCORE_ENVIRONMENT: Docker
+      ConnectionStrings__Database: "Host=postgres;Port=5432;Database=orderdb;Username=postgres;Password=postgres"
+      RabbitMq__Host: rabbitmq
+      RabbitMq__Username: guest
+      RabbitMq__Password: guest
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    ports:
+      - "5003:8080"
+
+  gateway.api:
+    build:
+      context: .
+      dockerfile: src/ApiGateways/Gateway.API/Dockerfile
+    container_name: gateway-api
+    environment:
+      ASPNETCORE_ENVIRONMENT: Docker
+    depends_on:
+      - catalog.api
+      - basket.api
+      - order.api
+    ports:
+      - "5000:8080"
+
+volumes:
+  postgres_data:

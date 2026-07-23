@@ -1,0 +1,559 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v10.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v10.0": {
+      "Basket.API/1.0.0": {
+        "dependencies": {
+          "AspNetCore.HealthChecks.Redis": "9.0.0",
+          "Microsoft.AspNetCore.OpenApi": "10.0.10",
+          "Microsoft.Extensions.Caching.StackExchangeRedis": "10.0.10",
+          "Shared.Contracts": "1.0.0",
+          "Shared.Infrastructure": "1.0.0"
+        },
+        "runtime": {
+          "Basket.API.dll": {}
+        }
+      },
+      "AspNetCore.HealthChecks.Redis/9.0.0": {
+        "dependencies": {
+          "StackExchange.Redis": "2.7.27"
+        },
+        "runtime": {
+          "lib/net8.0/HealthChecks.Redis.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.0.0"
+          }
+        }
+      },
+      "MassTransit/9.1.2": {
+        "dependencies": {
+          "MassTransit.Abstractions": "9.1.2"
+        },
+        "runtime": {
+          "lib/net10.0/MassTransit.dll": {
+            "assemblyVersion": "9.1.2.0",
+            "fileVersion": "9.1.2.0"
+          }
+        }
+      },
+      "MassTransit.Abstractions/9.1.2": {
+        "runtime": {
+          "lib/net10.0/MassTransit.Abstractions.dll": {
+            "assemblyVersion": "9.1.2.0",
+            "fileVersion": "9.1.2.0"
+          }
+        }
+      },
+      "MassTransit.RabbitMQ/9.1.2": {
+        "dependencies": {
+          "MassTransit": "9.1.2",
+          "RabbitMQ.Client": "7.2.1"
+        },
+        "runtime": {
+          "lib/net10.0/MassTransit.RabbitMqTransport.dll": {
+            "assemblyVersion": "9.1.2.0",
+            "fileVersion": "9.1.2.0"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.OpenApi/10.0.10": {
+        "dependencies": {
+          "Microsoft.OpenApi": "2.0.0"
+        },
+        "runtime": {
+          "lib/net10.0/Microsoft.AspNetCore.OpenApi.dll": {
+            "assemblyVersion": "10.0.10.0",
+            "fileVersion": "10.0.1026.32716"
+          }
+        }
+      },
+      "Microsoft.Extensions.Caching.StackExchangeRedis/10.0.10": {
+        "dependencies": {
+          "StackExchange.Redis": "2.7.27"
+        },
+        "runtime": {
+          "lib/net10.0/Microsoft.Extensions.Caching.StackExchangeRedis.dll": {
+            "assemblyVersion": "10.0.10.0",
+            "fileVersion": "10.0.1026.32716"
+          }
+        }
+      },
+      "Microsoft.Extensions.DependencyModel/10.0.0": {
+        "runtime": {
+          "lib/net10.0/Microsoft.Extensions.DependencyModel.dll": {
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.25.52411"
+          }
+        }
+      },
+      "Microsoft.OpenApi/2.0.0": {
+        "runtime": {
+          "lib/net8.0/Microsoft.OpenApi.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.0.0.0"
+          }
+        }
+      },
+      "OpenTelemetry/1.17.0": {
+        "dependencies": {
+          "OpenTelemetry.Api.ProviderBuilderExtensions": "1.17.0"
+        },
+        "runtime": {
+          "lib/net10.0/OpenTelemetry.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.17.0.2115"
+          }
+        }
+      },
+      "OpenTelemetry.Api/1.17.0": {
+        "runtime": {
+          "lib/net10.0/OpenTelemetry.Api.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.17.0.2115"
+          }
+        }
+      },
+      "OpenTelemetry.Api.ProviderBuilderExtensions/1.17.0": {
+        "dependencies": {
+          "OpenTelemetry.Api": "1.17.0"
+        },
+        "runtime": {
+          "lib/net10.0/OpenTelemetry.Api.ProviderBuilderExtensions.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.17.0.2115"
+          }
+        }
+      },
+      "OpenTelemetry.Exporter.Console/1.17.0": {
+        "dependencies": {
+          "OpenTelemetry": "1.17.0"
+        },
+        "runtime": {
+          "lib/net10.0/OpenTelemetry.Exporter.Console.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.17.0.2115"
+          }
+        }
+      },
+      "OpenTelemetry.Exporter.OpenTelemetryProtocol/1.17.0": {
+        "dependencies": {
+          "OpenTelemetry": "1.17.0"
+        },
+        "runtime": {
+          "lib/net10.0/OpenTelemetry.Exporter.OpenTelemetryProtocol.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.17.0.2115"
+          }
+        }
+      },
+      "OpenTelemetry.Extensions.Hosting/1.17.0": {
+        "dependencies": {
+          "OpenTelemetry": "1.17.0"
+        },
+        "runtime": {
+          "lib/net10.0/OpenTelemetry.Extensions.Hosting.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.17.0.2115"
+          }
+        }
+      },
+      "OpenTelemetry.Instrumentation.AspNetCore/1.17.0": {
+        "dependencies": {
+          "OpenTelemetry.Api.ProviderBuilderExtensions": "1.17.0"
+        },
+        "runtime": {
+          "lib/net10.0/OpenTelemetry.Instrumentation.AspNetCore.dll": {
+            "assemblyVersion": "1.17.0.1204",
+            "fileVersion": "1.17.0.1204"
+          }
+        }
+      },
+      "OpenTelemetry.Instrumentation.Http/1.17.0": {
+        "dependencies": {
+          "OpenTelemetry.Api.ProviderBuilderExtensions": "1.17.0"
+        },
+        "runtime": {
+          "lib/net10.0/OpenTelemetry.Instrumentation.Http.dll": {
+            "assemblyVersion": "1.17.0.1210",
+            "fileVersion": "1.17.0.1210"
+          }
+        }
+      },
+      "Pipelines.Sockets.Unofficial/2.2.8": {
+        "runtime": {
+          "lib/net5.0/Pipelines.Sockets.Unofficial.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "2.2.8.1080"
+          }
+        }
+      },
+      "RabbitMQ.Client/7.2.1": {
+        "runtime": {
+          "lib/net8.0/RabbitMQ.Client.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.2.1.0"
+          }
+        }
+      },
+      "Serilog/4.3.0": {
+        "runtime": {
+          "lib/net9.0/Serilog.dll": {
+            "assemblyVersion": "4.3.0.0",
+            "fileVersion": "4.3.0.0"
+          }
+        }
+      },
+      "Serilog.AspNetCore/10.0.0": {
+        "dependencies": {
+          "Serilog": "4.3.0",
+          "Serilog.Extensions.Hosting": "10.0.0",
+          "Serilog.Formatting.Compact": "3.0.0",
+          "Serilog.Settings.Configuration": "10.0.0",
+          "Serilog.Sinks.Console": "6.1.1",
+          "Serilog.Sinks.Debug": "3.0.0",
+          "Serilog.Sinks.File": "7.0.0"
+        },
+        "runtime": {
+          "lib/net10.0/Serilog.AspNetCore.dll": {
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.0.0"
+          }
+        }
+      },
+      "Serilog.Extensions.Hosting/10.0.0": {
+        "dependencies": {
+          "Serilog": "4.3.0",
+          "Serilog.Extensions.Logging": "10.0.0"
+        },
+        "runtime": {
+          "lib/net10.0/Serilog.Extensions.Hosting.dll": {
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.0.0"
+          }
+        }
+      },
+      "Serilog.Extensions.Logging/10.0.0": {
+        "dependencies": {
+          "Serilog": "4.3.0"
+        },
+        "runtime": {
+          "lib/net10.0/Serilog.Extensions.Logging.dll": {
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.0.0"
+          }
+        }
+      },
+      "Serilog.Formatting.Compact/3.0.0": {
+        "dependencies": {
+          "Serilog": "4.3.0"
+        },
+        "runtime": {
+          "lib/net8.0/Serilog.Formatting.Compact.dll": {
+            "assemblyVersion": "3.0.0.0",
+            "fileVersion": "3.0.0.0"
+          }
+        }
+      },
+      "Serilog.Settings.Configuration/10.0.0": {
+        "dependencies": {
+          "Microsoft.Extensions.DependencyModel": "10.0.0",
+          "Serilog": "4.3.0"
+        },
+        "runtime": {
+          "lib/net10.0/Serilog.Settings.Configuration.dll": {
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.0.0"
+          }
+        }
+      },
+      "Serilog.Sinks.Console/6.1.1": {
+        "dependencies": {
+          "Serilog": "4.3.0"
+        },
+        "runtime": {
+          "lib/net8.0/Serilog.Sinks.Console.dll": {
+            "assemblyVersion": "6.1.1.0",
+            "fileVersion": "6.1.1.0"
+          }
+        }
+      },
+      "Serilog.Sinks.Debug/3.0.0": {
+        "dependencies": {
+          "Serilog": "4.3.0"
+        },
+        "runtime": {
+          "lib/net8.0/Serilog.Sinks.Debug.dll": {
+            "assemblyVersion": "3.0.0.0",
+            "fileVersion": "3.0.0.0"
+          }
+        }
+      },
+      "Serilog.Sinks.File/7.0.0": {
+        "dependencies": {
+          "Serilog": "4.3.0"
+        },
+        "runtime": {
+          "lib/net9.0/Serilog.Sinks.File.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.0.0"
+          }
+        }
+      },
+      "StackExchange.Redis/2.7.27": {
+        "dependencies": {
+          "Pipelines.Sockets.Unofficial": "2.2.8"
+        },
+        "runtime": {
+          "lib/net6.0/StackExchange.Redis.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.7.27.49176"
+          }
+        }
+      },
+      "Shared.Contracts/1.0.0": {
+        "runtime": {
+          "Shared.Contracts.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "Shared.Infrastructure/1.0.0": {
+        "dependencies": {
+          "MassTransit.RabbitMQ": "9.1.2",
+          "OpenTelemetry.Exporter.Console": "1.17.0",
+          "OpenTelemetry.Exporter.OpenTelemetryProtocol": "1.17.0",
+          "OpenTelemetry.Extensions.Hosting": "1.17.0",
+          "OpenTelemetry.Instrumentation.AspNetCore": "1.17.0",
+          "OpenTelemetry.Instrumentation.Http": "1.17.0",
+          "Serilog.AspNetCore": "10.0.0",
+          "Serilog.Sinks.Console": "6.1.1",
+          "Shared.Contracts": "1.0.0"
+        },
+        "runtime": {
+          "Shared.Infrastructure.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Basket.API/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "AspNetCore.HealthChecks.Redis/9.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-yNH0h8GLRbAf+PU5HNVLZ5hNeyq9mDVmRKO9xuZsme/znUYoBJlQvI0gq45gaZNlLncCHkMhR4o90MuT+gxxPw==",
+      "path": "aspnetcore.healthchecks.redis/9.0.0",
+      "hashPath": "aspnetcore.healthchecks.redis.9.0.0.nupkg.sha512"
+    },
+    "MassTransit/9.1.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-7rHsXnvoQ+YpKBlWhkBPwkkbq9kK+mK2hro3Z7m1CfCqVUZPsDh/lmkuVkEXKsr+mY6fgG3rxQLaLTYVYaqsEw==",
+      "path": "masstransit/9.1.2",
+      "hashPath": "masstransit.9.1.2.nupkg.sha512"
+    },
+    "MassTransit.Abstractions/9.1.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-o2MymiTaxaJ0LUNm6W/8taD1u6Q/hyee1FwM/XvJ8l4IHgGBOVllPLuViYiI/XDu/t86ErjXOJqXrkOB/+ZrCg==",
+      "path": "masstransit.abstractions/9.1.2",
+      "hashPath": "masstransit.abstractions.9.1.2.nupkg.sha512"
+    },
+    "MassTransit.RabbitMQ/9.1.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-yc6qZJdHl5M+7ceTbgUOXXQnl6csuv3Sguv/DWY5xtrkPk8uRwI9isGowDeMGjJgNmbWWy1K7LXjNw+xY+Y5XA==",
+      "path": "masstransit.rabbitmq/9.1.2",
+      "hashPath": "masstransit.rabbitmq.9.1.2.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.OpenApi/10.0.10": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-d4Atx9IHq7JgX0F/h7Db+m9zAUzC+cKdI9k+OWnnyQIOUQtfvjIEuhvbjPigVMkAmPUgCbJ8Yp6M9ghUqHtJSQ==",
+      "path": "microsoft.aspnetcore.openapi/10.0.10",
+      "hashPath": "microsoft.aspnetcore.openapi.10.0.10.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Caching.StackExchangeRedis/10.0.10": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-E+3pfEY68WQh1ZVFTGDNK0JCoayzL3aIDgVHHM85HIbQO7MiABG14A7+ajHH2P/y3a4W2Rla5p2nzut3+mzoyQ==",
+      "path": "microsoft.extensions.caching.stackexchangeredis/10.0.10",
+      "hashPath": "microsoft.extensions.caching.stackexchangeredis.10.0.10.nupkg.sha512"
+    },
+    "Microsoft.Extensions.DependencyModel/10.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-RFYJR7APio/BiqdQunRq6DB+nDB6nc2qhHr77mlvZ0q0BT8PubMXN7XicmfzCbrDE/dzhBnUKBRXLTcqUiZDGg==",
+      "path": "microsoft.extensions.dependencymodel/10.0.0",
+      "hashPath": "microsoft.extensions.dependencymodel.10.0.0.nupkg.sha512"
+    },
+    "Microsoft.OpenApi/2.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-GGYLfzV/G/ct80OZ45JxnWP7NvMX1BCugn/lX7TH5o0lcVaviavsLMTxmFV2AybXWjbi3h6FF1vgZiTK6PXndw==",
+      "path": "microsoft.openapi/2.0.0",
+      "hashPath": "microsoft.openapi.2.0.0.nupkg.sha512"
+    },
+    "OpenTelemetry/1.17.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-rMLOTftlMlTm7+MSrvXDHnJRjVkROFNKXHZrYjOsX+LankaFG7QSflx7qRRGjoqZoirohnxmJQ7GEb9occO4Gg==",
+      "path": "opentelemetry/1.17.0",
+      "hashPath": "opentelemetry.1.17.0.nupkg.sha512"
+    },
+    "OpenTelemetry.Api/1.17.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-mSBxzomZgHIJu9CyVNqyDu/n2JHEtqVgfcCD1Br0cV5iLYogjZOMqhlVLt99PEp+0KGBNUR3GXgeOdN2GR3F9g==",
+      "path": "opentelemetry.api/1.17.0",
+      "hashPath": "opentelemetry.api.1.17.0.nupkg.sha512"
+    },
+    "OpenTelemetry.Api.ProviderBuilderExtensions/1.17.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Xgc3Qf9B9TFMFpx6exTdGqMWuYIT2miNzkdMPutVvT9YuMFaEovXWke1Gb6z8NxYaQbbGF38vYLuSg1JCeui5Q==",
+      "path": "opentelemetry.api.providerbuilderextensions/1.17.0",
+      "hashPath": "opentelemetry.api.providerbuilderextensions.1.17.0.nupkg.sha512"
+    },
+    "OpenTelemetry.Exporter.Console/1.17.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-sSoCa2DMCkw7tQabiVduwKWVyg9ungCiwh+0JuDPODF6CuYvR+OCuJwqcbzJsTMecWQrbgL8OYWAt3GC5tJGhw==",
+      "path": "opentelemetry.exporter.console/1.17.0",
+      "hashPath": "opentelemetry.exporter.console.1.17.0.nupkg.sha512"
+    },
+    "OpenTelemetry.Exporter.OpenTelemetryProtocol/1.17.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-R1omQOrQpGlS0Cp5UIr/TAiuEA48JrPlgr1NPV5gESiTU7HhWU+ILe2EBSYb1fKdsSavZ7nZkHcUxAzofPqr2A==",
+      "path": "opentelemetry.exporter.opentelemetryprotocol/1.17.0",
+      "hashPath": "opentelemetry.exporter.opentelemetryprotocol.1.17.0.nupkg.sha512"
+    },
+    "OpenTelemetry.Extensions.Hosting/1.17.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-t1OwL/4qgboGMobYVT+UV5zgWnFqCp4Pw8lcsmzh8m2K8PQsTKkyxrC32tqYTMYny3GOW4q5cltE3dTVzLmRew==",
+      "path": "opentelemetry.extensions.hosting/1.17.0",
+      "hashPath": "opentelemetry.extensions.hosting.1.17.0.nupkg.sha512"
+    },
+    "OpenTelemetry.Instrumentation.AspNetCore/1.17.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-rGbmk1vuy1kvgZmE0ps7Vb99YZvDap6AalrrF60FwnNit1uW/PbeFZj1cpb0T8MPkYmjhBrRJ1/JB6QqXkRjHA==",
+      "path": "opentelemetry.instrumentation.aspnetcore/1.17.0",
+      "hashPath": "opentelemetry.instrumentation.aspnetcore.1.17.0.nupkg.sha512"
+    },
+    "OpenTelemetry.Instrumentation.Http/1.17.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-uTwVtxIJ/xB96wGYTaDsbkJVeCFdUxTwvrlDUn2YJixy0UuKc8DvQMzwKNJMTzNFiiyYO9c40id6tUHTmWs33A==",
+      "path": "opentelemetry.instrumentation.http/1.17.0",
+      "hashPath": "opentelemetry.instrumentation.http.1.17.0.nupkg.sha512"
+    },
+    "Pipelines.Sockets.Unofficial/2.2.8": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-zG2FApP5zxSx6OcdJQLbZDk2AVlN2BNQD6MorwIfV6gVj0RRxWPEp2LXAxqDGZqeNV1Zp0BNPcNaey/GXmTdvQ==",
+      "path": "pipelines.sockets.unofficial/2.2.8",
+      "hashPath": "pipelines.sockets.unofficial.2.2.8.nupkg.sha512"
+    },
+    "RabbitMQ.Client/7.2.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-YKXEfg9fVQiTKgZlvIhAfPSFaamEgi8DsQmisCH0IAsU4FYLrtoguDrDj6JtJVGUt40QPnBLRH6fTQcAC4qsOg==",
+      "path": "rabbitmq.client/7.2.1",
+      "hashPath": "rabbitmq.client.7.2.1.nupkg.sha512"
+    },
+    "Serilog/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-+cDryFR0GRhsGOnZSKwaDzRRl4MupvJ42FhCE4zhQRVanX0Jpg6WuCBk59OVhVDPmab1bB+nRykAnykYELA9qQ==",
+      "path": "serilog/4.3.0",
+      "hashPath": "serilog.4.3.0.nupkg.sha512"
+    },
+    "Serilog.AspNetCore/10.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-a/cNa1mY4On1oJlfGG1wAvxjp5g7OEzk/Jf/nm7NF9cWoE7KlZw1GldrifUBWm9oKibHkR7Lg/l5jy3y7ACR8w==",
+      "path": "serilog.aspnetcore/10.0.0",
+      "hashPath": "serilog.aspnetcore.10.0.0.nupkg.sha512"
+    },
+    "Serilog.Extensions.Hosting/10.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-E7juuIc+gzoGxgzFooFgAV8g9BfiSXNKsUok9NmEpyAXg2odkcPsMa/Yo4axkJRlh0se7mkYQ1GXDaBemR+b6w==",
+      "path": "serilog.extensions.hosting/10.0.0",
+      "hashPath": "serilog.extensions.hosting.10.0.0.nupkg.sha512"
+    },
+    "Serilog.Extensions.Logging/10.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-vx0kABKl2dWbBhhqAfTOk53/i8aV/5VaT3a6il9gn72Wqs2pM7EK2OB6No6xdqK2IaY6Zf9gdjLuK9BVa2rT+Q==",
+      "path": "serilog.extensions.logging/10.0.0",
+      "hashPath": "serilog.extensions.logging.10.0.0.nupkg.sha512"
+    },
+    "Serilog.Formatting.Compact/3.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-wQsv14w9cqlfB5FX2MZpNsTawckN4a8dryuNGbebB/3Nh1pXnROHZov3swtu3Nj5oNG7Ba+xdu7Et/ulAUPanQ==",
+      "path": "serilog.formatting.compact/3.0.0",
+      "hashPath": "serilog.formatting.compact.3.0.0.nupkg.sha512"
+    },
+    "Serilog.Settings.Configuration/10.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-LNq+ibS1sbhTqPV1FIE69/9AJJbfaOhnaqkzcjFy95o+4U+STsta9mi97f1smgXsWYKICDeGUf8xUGzd/52/uA==",
+      "path": "serilog.settings.configuration/10.0.0",
+      "hashPath": "serilog.settings.configuration.10.0.0.nupkg.sha512"
+    },
+    "Serilog.Sinks.Console/6.1.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-8jbqgjUyZlfCuSTaJk6lOca465OndqOz3KZP6Cryt/IqZYybyBu7GP0fE/AXBzrrQB3EBmQntBFAvMVz1COvAA==",
+      "path": "serilog.sinks.console/6.1.1",
+      "hashPath": "serilog.sinks.console.6.1.1.nupkg.sha512"
+    },
+    "Serilog.Sinks.Debug/3.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-4BzXcdrgRX7wde9PmHuYd9U6YqycCC28hhpKonK7hx0wb19eiuRj16fPcPSVp0o/Y1ipJuNLYQ00R3q2Zs8FDA==",
+      "path": "serilog.sinks.debug/3.0.0",
+      "hashPath": "serilog.sinks.debug.3.0.0.nupkg.sha512"
+    },
+    "Serilog.Sinks.File/7.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-fKL7mXv7qaiNBUC71ssvn/dU0k9t0o45+qm2XgKAlSt19xF+ijjxyA3R6HmCgfKEKwfcfkwWjayuQtRueZFkYw==",
+      "path": "serilog.sinks.file/7.0.0",
+      "hashPath": "serilog.sinks.file.7.0.0.nupkg.sha512"
+    },
+    "StackExchange.Redis/2.7.27": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Uqc2OQHglqj9/FfGQ6RkKFkZfHySfZlfmbCl+hc+u2I/IqunfelQ7QJi7ZhvAJxUtu80pildVX6NPLdDaUffOw==",
+      "path": "stackexchange.redis/2.7.27",
+      "hashPath": "stackexchange.redis.2.7.27.nupkg.sha512"
+    },
+    "Shared.Contracts/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Shared.Infrastructure/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
