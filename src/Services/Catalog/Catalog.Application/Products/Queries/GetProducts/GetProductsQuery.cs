@@ -8,4 +8,5 @@ public sealed record ProductListItemDto(
     Guid Id,
     string Name,
     decimal Price,
-    string? ImageUrl);
+    string? ImageUrl,
+    int Stock);

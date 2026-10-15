@@ -31,7 +31,8 @@ public static class ProductEndpoints
                 request.Name,
                 request.Description,
                 request.Price,
-                request.ImageUrl));
+                request.ImageUrl,
+                request.Stock));
 
             return Results.Created($"/api/products/{id}", new { id });
         });
@@ -43,7 +44,8 @@ public static class ProductEndpoints
                 request.Name,
                 request.Description,
                 request.Price,
-                request.ImageUrl));
+                request.ImageUrl,
+                request.Stock));
 
             return updated ? Results.NoContent() : Results.NotFound();
         });
@@ -62,10 +64,12 @@ public sealed record CreateProductRequest(
     string Name,
     string? Description,
     decimal Price,
-    string? ImageUrl);
+    string? ImageUrl,
+    int Stock = 0);
 
 public sealed record UpdateProductRequest(
     string Name,
     string? Description,
     decimal Price,
-    string? ImageUrl);
+    string? ImageUrl,
+    int Stock = 0);

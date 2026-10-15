@@ -47,8 +47,13 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: Docker
       ConnectionStrings__Database: "Host=postgres;Port=5432;Database=catalogdb;Username=postgres;Password=postgres"
+      RabbitMq__Host: rabbitmq
+      RabbitMq__Username: guest
+      RabbitMq__Password: guest
     depends_on:
       postgres:
+        condition: service_healthy
+      rabbitmq:
         condition: service_healthy
     ports:
       - "5001:8080"
@@ -91,6 +96,38 @@ services:
     ports:
       - "5003:8080"
 
+  payment.api:
+    build:
+      context: .
+      dockerfile: src/Services/Payment/Payment.API/Dockerfile
+    container_name: payment-api
+    environment:
+      ASPNETCORE_ENVIRONMENT: Docker
+      RabbitMq__Host: rabbitmq
+      RabbitMq__Username: guest
+      RabbitMq__Password: guest
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    ports:
+      - "5004:8080"
+
+  simulator.web:
+    build:
+      context: .
+      dockerfile: src/Web/Simulator.Web/Dockerfile
+    container_name: simulator-web
+    environment:
+      ASPNETCORE_ENVIRONMENT: Docker
+      RabbitMq__Host: rabbitmq
+      RabbitMq__Username: guest
+      RabbitMq__Password: guest
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    ports:
+      - "5010:8080"
+
   gateway.api:
     build:
       context: .
@@ -102,6 +139,8 @@ services:
       - catalog.api
       - basket.api
       - order.api
+      - payment.api
+      - simulator.web
     ports:
       - "5000:8080"
 

@@ -20,6 +20,15 @@ public sealed class CustomerOrderConfiguration : IEntityTypeConfiguration<Custom
         builder.Property(o => o.CreatedAt)
             .IsRequired();
 
+        // Enum metin olarak saklanır: tabloya bakan biri "0/1/2" yerine "Pending/Completed/Cancelled" görür.
+        builder.Property(o => o.Status)
+            .HasConversion<string>()
+            .HasMaxLength(20)
+            .IsRequired();
+
+        builder.Property(o => o.FailureReason)
+            .HasMaxLength(1000);
+
         builder.OwnsMany(o => o.Items, items =>
         {
             items.ToTable("OrderItems");

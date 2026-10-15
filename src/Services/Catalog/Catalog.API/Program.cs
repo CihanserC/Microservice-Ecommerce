@@ -1,8 +1,6 @@
 using Catalog.API.Endpoints;
 using Catalog.Infrastructure;
-using Catalog.Infrastructure.Persistence;
 using Catalog.Infrastructure.Products.Commands;
-using Microsoft.EntityFrameworkCore;
 using Shared.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,7 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseSharedSerilog("Catalog.API");
 
 builder.Services.AddSharedOpenTelemetry("Catalog.API");
+builder.Services.AddSimulationTracing(builder.Configuration, "catalog");
 builder.Services.AddCatalogInfrastructure(builder.Configuration);
+builder.Services.AddCatalogMessaging(builder.Configuration);
 builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(typeof(CreateProductHandler).Assembly));
 
@@ -23,13 +23,10 @@ builder.Services.AddHealthChecks()
 var app = builder.Build();
 
 app.UseSharedInfrastructure();
+app.UseSimulationTracing();
 app.MapProductEndpoints();
 app.MapHealthChecks("/health");
 
-using (var scope = app.Services.CreateScope())
-{
-    var context = scope.ServiceProvider.GetRequiredService<CatalogDbContext>();
-    await context.Database.MigrateAsync();
-}
+await app.Services.MigrateCatalogDatabaseAsync();
 
 app.Run();

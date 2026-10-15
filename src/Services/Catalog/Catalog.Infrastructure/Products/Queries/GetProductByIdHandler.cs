@@ -19,6 +19,7 @@ public sealed class GetProductByIdHandler(CatalogDbContext context)
                 p.Description,
                 p.Price,
                 p.ImageUrl,
+                p.Stock,
                 p.CreatedAt,
                 p.UpdatedAt))
             .FirstOrDefaultAsync(cancellationToken);

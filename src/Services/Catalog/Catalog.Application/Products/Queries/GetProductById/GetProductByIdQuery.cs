@@ -10,5 +10,6 @@ public sealed record ProductDto(
     string? Description,
     decimal Price,
     string? ImageUrl,
+    int Stock,
     DateTime CreatedAt,
     DateTime? UpdatedAt);

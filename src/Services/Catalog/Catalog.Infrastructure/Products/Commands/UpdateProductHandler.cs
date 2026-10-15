@@ -20,6 +20,7 @@ public sealed class UpdateProductHandler(CatalogDbContext context)
         product.Description = request.Description;
         product.Price = request.Price;
         product.ImageUrl = request.ImageUrl;
+        product.Stock = request.Stock;
         product.UpdatedAt = DateTime.UtcNow;
 
         await context.SaveChangesAsync(cancellationToken);

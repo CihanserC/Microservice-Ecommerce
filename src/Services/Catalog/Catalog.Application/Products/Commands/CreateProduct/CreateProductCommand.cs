@@ -6,4 +6,5 @@ public sealed record CreateProductCommand(
     string Name,
     string? Description,
     decimal Price,
-    string? ImageUrl) : IRequest<Guid>;
+    string? ImageUrl,
+    int Stock) : IRequest<Guid>;

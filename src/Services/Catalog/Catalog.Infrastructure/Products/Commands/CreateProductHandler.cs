@@ -16,7 +16,8 @@ public sealed class CreateProductHandler(CatalogDbContext context)
             Name = request.Name,
             Description = request.Description,
             Price = request.Price,
-            ImageUrl = request.ImageUrl
+            ImageUrl = request.ImageUrl,
+            Stock = request.Stock
         };
 
         context.Products.Add(product);

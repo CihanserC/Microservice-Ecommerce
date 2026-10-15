@@ -7,4 +7,5 @@ public sealed record UpdateProductCommand(
     string Name,
     string? Description,
     decimal Price,
-    string? ImageUrl) : IRequest<bool>;
+    string? ImageUrl,
+    int Stock) : IRequest<bool>;

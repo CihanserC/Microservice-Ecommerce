@@ -15,7 +15,7 @@ public sealed class GetProductsHandler(CatalogDbContext context)
         return await context.Products
             .AsNoTracking()
             .OrderBy(p => p.Name)
-            .Select(p => new ProductListItemDto(p.Id, p.Name, p.Price, p.ImageUrl))
+            .Select(p => new ProductListItemDto(p.Id, p.Name, p.Price, p.ImageUrl, p.Stock))
             .ToListAsync(cancellationToken);
     }
 }

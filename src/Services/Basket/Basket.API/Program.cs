@@ -7,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseSharedSerilog("Basket.API");
 
 builder.Services.AddSharedOpenTelemetry("Basket.API");
+builder.Services.AddSimulationTracing(builder.Configuration, "basket");
 builder.Services.AddSharedMassTransit(builder.Configuration);
 
 var redisConnection = builder.Configuration.GetConnectionString("Redis")
@@ -25,6 +26,7 @@ builder.Services.AddHealthChecks()
 var app = builder.Build();
 
 app.UseSharedInfrastructure();
+app.UseSimulationTracing();
 app.MapBasketEndpoints();
 app.MapHealthChecks("/health");
 

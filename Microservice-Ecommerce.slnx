@@ -17,9 +17,18 @@
     <Project Path="src/Services/Catalog/Catalog.Domain/Catalog.Domain.csproj" />
     <Project Path="src/Services/Catalog/Catalog.Infrastructure/Catalog.Infrastructure.csproj" />
   </Folder>
+  <Folder Name="/src/Services/Payment/">
+    <Project Path="src/Services/Payment/Payment.API/Payment.API.csproj" />
+  </Folder>
   <Folder Name="/src/Services/Order/">
     <Project Path="src/Services/Order/Order.API/Order.API.csproj" />
     <Project Path="src/Services/Order/Order.Domain/Order.Domain.csproj" />
     <Project Path="src/Services/Order/Order.Infrastructure/Order.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/src/Web/">
+    <Project Path="src/Web/Simulator.Web/Simulator.Web.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Order.Tests/Order.Tests.csproj" />
   </Folder>
 </Solution>
