@@ -1,8 +1,15 @@
 # Microservice E-Commerce (.NET 10)
 
-A minimalist, production-ready microservices skeleton for an e-commerce domain demonstrating decoupling, async/sync communication, API Gateway, an orchestrated saga with compensation, the transactional outbox, observability, and containerization.
+[![Tests](https://github.com/CihanserC/Microservice-Ecommerce/actions/workflows/tests.yml/badge.svg)](https://github.com/CihanserC/Microservice-Ecommerce/actions/workflows/tests.yml)
+[![Demo](https://github.com/CihanserC/Microservice-Ecommerce/actions/workflows/pages.yml/badge.svg)](https://cihanserc.github.io/Microservice-Ecommerce/)
+
+A teaching-oriented microservices skeleton for an e-commerce domain. It demonstrates decoupling, synchronous and asynchronous communication, an API Gateway, an orchestrated saga with compensation, the transactional outbox and inbox, idempotent consumers, tracing and containerization.
 
 It ships with an **interactive simulator**: a web UI that animates every HTTP call, message, database write and saga transition as it happens, and opens the exact line of code that produced it.
+
+![The simulator playing the "payment declined + compensation" scenario step by step](docs/images/simulator-saga.gif)
+
+It is deliberately kept small so the ideas stay visible; it is not a production store. Authentication, resilience policies on synchronous calls (circuit breaker, retry, timeout), a saga timeout, Kubernetes and a tracing UI are left out on purpose. The docs list these limits and how to add them.
 
 ## Try it without installing anything
 

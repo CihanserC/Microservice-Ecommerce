@@ -43,6 +43,9 @@ public sealed class OrderStateMachineTests : IAsyncLifetime
         await _harness.Bus.Publish(new StockReservedEvent { OrderId = orderId });
         Assert.NotNull(await _saga.Exists(orderId, m => m.AwaitingPayment));
 
+        // Saga önce durum değiştirir (TransitionTo), sonra yayınlar; Exists dönünce mesaj henüz
+        // kaydedilmemiş olabilir. Any() mesaj gelene kadar bekler, Select() beklemez.
+        Assert.True(await _harness.Published.Any<ProcessPaymentCommand>(x => x.Context.Message.OrderId == orderId));
         var payment = _harness.Published.Select<ProcessPaymentCommand>(x => x.Context.Message.OrderId == orderId).FirstOrDefault();
         Assert.NotNull(payment);
         Assert.Equal(1899.90m, payment.Context.Message.Amount);
@@ -85,6 +88,7 @@ public sealed class OrderStateMachineTests : IAsyncLifetime
         await _harness.Bus.Publish(new StockReleasedEvent { OrderId = orderId });
 
         Assert.NotNull(await _saga.Exists(orderId, m => m.Cancelled));
+        Assert.True(await _harness.Published.Any<OrderCancelledEvent>(x => x.Context.Message.OrderId == orderId));
         var cancelled = _harness.Published.Select<OrderCancelledEvent>(x => x.Context.Message.OrderId == orderId).Single();
         Assert.Equal("Kart limiti yetersiz", cancelled.Context.Message.Reason);
     }

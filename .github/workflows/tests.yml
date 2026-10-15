@@ -1,0 +1,28 @@
+# Her push ve pull request'te çözümü derler ve testleri çalıştırır.
+# Saga testleri MassTransit'in bellek içi test harness'ını kullanır; RabbitMQ ya da PostgreSQL gerekmez.
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Build
+        run: dotnet build Microservice-Ecommerce.slnx --configuration Release
+
+      - name: Test
+        run: dotnet test tests/Order.Tests/Order.Tests.csproj --configuration Release --no-build --logger "console;verbosity=normal"
