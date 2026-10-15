@@ -40,9 +40,10 @@ public static class BasketEndpoints
             var stored = await basketService.StoreBasketAsync(basket, ct);
 
             await tracer.TraceAsync(
-                $"Sepet Redis'e yazıldı (basket:{stored.UserName})",
+                new($"Sepet Redis'e yazıldı (basket:{stored.UserName})", $"Basket written to Redis (basket:{stored.UserName})"),
                 TraceKinds.Database,
-                detail: "Sepet geçici veridir: ilişkisel tablo yerine JSON olarak tek bir Redis anahtarında durur.",
+                detail: new("Sepet geçici veridir: ilişkisel tablo yerine JSON olarak tek bir Redis anahtarında durur.",
+                    "A basket is temporary data: it lives as JSON under a single Redis key instead of relational tables."),
                 payload: stored);
 
             return Results.Ok(stored);
@@ -84,9 +85,11 @@ public static class BasketEndpoints
             await basketService.DeleteBasketAsync(basket.UserName, ct);
 
             await tracer.TraceAsync(
-                "Sepet Redis'ten silindi, istemciye 202 Accepted dönülüyor",
+                new("Sepet Redis'ten silindi, istemciye 202 Accepted dönülüyor",
+                    "Basket deleted from Redis, returning 202 Accepted to the client"),
                 TraceKinds.Database,
-                detail: "202 = \"isteğini aldım, işleniyor\". Siparişin oluşup oluşmadığını istemci daha sonra /orders ile öğrenir.");
+                detail: new("202 = \"isteğini aldım, işleniyor\". Siparişin oluşup oluşmadığını istemci daha sonra /orders ile öğrenir.",
+                    "202 = \"I got your request and it is being processed\". The client finds out later via /orders whether the order was created."));
 
             return Results.Accepted(value: new { message = "Checkout initiated.", totalPrice = basket.TotalPrice });
         });

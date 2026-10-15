@@ -24,8 +24,10 @@ public sealed class ProcessPaymentConsumer(
         if (existing is not null)
         {
             await tracer.TraceAsync(
-                "Bu sipariş zaten işlenmiş, ikinci kez tahsil edilmedi",
-                detail: "Tekrar gelen komut için önceki sonuç yeniden yayınlanıyor.",
+                new("Bu sipariş zaten işlenmiş, ikinci kez tahsil edilmedi",
+                    "This order was already processed, not charged a second time"),
+                detail: new("Tekrar gelen komut için önceki sonuç yeniden yayınlanıyor.",
+                    "The earlier result is published again for the repeated command."),
                 orderId: message.OrderId);
             await PublishOutcome(context, existing);
             return;
@@ -33,8 +35,9 @@ public sealed class ProcessPaymentConsumer(
 
         var settings = simulator.Settings;
         await tracer.TraceAsync(
-            $"Bankaya gidiliyor ({settings.DelayMs} ms)",
-            detail: $"Mod: {settings.Mode}, limit: {settings.Limit:N2} ₺. Bu sürede saga AwaitingPayment durumunda bekler.",
+            new($"Bankaya gidiliyor ({settings.DelayMs} ms)", $"Calling the bank ({settings.DelayMs} ms)"),
+            detail: new($"Mod: {settings.Mode}, limit: {settings.Limit:N2} ₺. Bu sürede saga AwaitingPayment durumunda bekler.",
+                $"Mode: {settings.Mode}, limit: {settings.Limit:N2} ₺. Meanwhile the saga waits in AwaitingPayment."),
             orderId: message.OrderId,
             payload: settings);
 
@@ -51,9 +54,9 @@ public sealed class ProcessPaymentConsumer(
             ProcessedAt: DateTime.UtcNow));
 
         await tracer.TraceAsync(
-            record.Succeeded ? "Ödeme onaylandı" : "Ödeme reddedildi",
+            record.Succeeded ? new TraceText("Ödeme onaylandı", "Payment approved") : new TraceText("Ödeme reddedildi", "Payment declined"),
             record.Succeeded ? TraceKinds.Step : TraceKinds.Error,
-            detail: record.FailureReason ?? $"{record.Amount:N2} ₺ tahsil edildi.",
+            detail: record.FailureReason ?? new TraceText($"{record.Amount:N2} ₺ tahsil edildi.", $"{record.Amount:N2} ₺ charged."),
             orderId: message.OrderId,
             payload: record);
 

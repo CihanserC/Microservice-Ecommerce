@@ -29,9 +29,10 @@ public sealed class OrderOutcomeConsumer(
         await dbContext.SaveChangesAsync(context.CancellationToken);
 
         await tracer.TraceAsync(
-            "Sipariş durumu Completed yapıldı",
+            new("Sipariş durumu Completed yapıldı", "Order status set to Completed"),
             TraceKinds.Database,
-            detail: "CustomerOrder.Complete() çağrıldı; Orders.Status güncellendi.",
+            detail: new("CustomerOrder.Complete() çağrıldı; Orders.Status güncellendi.",
+                "CustomerOrder.Complete() was called; Orders.Status was updated."),
             orderId: order.Id);
     }
 
@@ -46,9 +47,10 @@ public sealed class OrderOutcomeConsumer(
         await dbContext.SaveChangesAsync(context.CancellationToken);
 
         await tracer.TraceAsync(
-            "Sipariş durumu Cancelled yapıldı",
+            new("Sipariş durumu Cancelled yapıldı", "Order status set to Cancelled"),
             TraceKinds.Database,
-            detail: $"CustomerOrder.Cancel() çağrıldı. Sebep: {context.Message.Reason}",
+            detail: new($"CustomerOrder.Cancel() çağrıldı. Sebep: {context.Message.Reason}",
+                $"CustomerOrder.Cancel() was called. Reason: {context.Message.Reason}"),
             orderId: order.Id);
     }
 }

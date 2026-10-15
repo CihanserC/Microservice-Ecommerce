@@ -45,9 +45,12 @@ public sealed class ReleaseStockConsumer(
         await dbContext.SaveChangesAsync(ct);
 
         await tracer.TraceAsync(
-            reservations.Count > 0 ? "Telafi: ayrılan stok geri eklendi" : "Telafi: geri bırakılacak rezervasyon yok",
+            reservations.Count > 0
+                ? new("Telafi: ayrılan stok geri eklendi", "Compensation: reserved stock added back")
+                : new("Telafi: geri bırakılacak rezervasyon yok", "Compensation: no reservation to release"),
             TraceKinds.Database,
-            detail: $"Sebep: {message.Reason}. Products.Stock artırıldı, StockReservations satırları silindi.",
+            detail: new($"Sebep: {message.Reason.TrimEnd('.')}. Products.Stock artırıldı, StockReservations satırları silindi.",
+                $"Reason: {message.Reason.TrimEnd('.')}. Products.Stock was increased and the StockReservations rows were deleted."),
             orderId: message.OrderId,
             payload: reservations.Select(r => new { r.ProductId, released = r.Quantity }));
     }

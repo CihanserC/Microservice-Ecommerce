@@ -27,8 +27,10 @@ public sealed class ReserveStockConsumer(
         if (alreadyReserved)
         {
             await tracer.TraceAsync(
-                "Bu sipariş için stok zaten ayrılmış, tekrar düşülmedi",
-                detail: "Aynı komut ikinci kez geldi. Sonuç olayı yeniden yayınlanır, stok değişmez.",
+                new("Bu sipariş için stok zaten ayrılmış, tekrar düşülmedi",
+                    "Stock already reserved for this order, not deducted again"),
+                detail: new("Aynı komut ikinci kez geldi. Sonuç olayı yeniden yayınlanır, stok değişmez.",
+                    "The same command arrived twice. The result event is published again and stock stays unchanged."),
                 orderId: message.OrderId);
             await context.Publish(new StockReservedEvent { OrderId = message.OrderId });
             return;
@@ -50,7 +52,7 @@ public sealed class ReserveStockConsumer(
         {
             var reason = "Stok yetersiz — " + string.Join("; ", shortages);
             await tracer.TraceAsync(
-                "Stok yetersiz, hiçbir kalem ayrılmadı",
+                new("Stok yetersiz, hiçbir kalem ayrılmadı", "Insufficient stock, no item was reserved"),
                 detail: reason,
                 orderId: message.OrderId);
 
@@ -82,9 +84,10 @@ public sealed class ReserveStockConsumer(
         await dbContext.SaveChangesAsync(ct);
 
         await tracer.TraceAsync(
-            "Stok düşüldü ve rezervasyon kaydedildi",
+            new("Stok düşüldü ve rezervasyon kaydedildi", "Stock deducted and reservation saved"),
             TraceKinds.Database,
-            detail: "Products.Stock azaltıldı, StockReservations'a satır eklendi, StockReservedEvent outbox'a yazıldı — hepsi tek transaction.",
+            detail: new("Products.Stock azaltıldı, StockReservations'a satır eklendi, StockReservedEvent outbox'a yazıldı — hepsi tek transaction.",
+                "Products.Stock was decreased, a StockReservations row was added and StockReservedEvent was written to the outbox — all in one transaction."),
             orderId: message.OrderId,
             payload: message.Items.Select(i => new
             {

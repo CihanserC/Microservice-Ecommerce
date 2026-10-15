@@ -18,6 +18,10 @@ public sealed record TraceEvent
     public required string Title { get; init; }
     public string? Detail { get; init; }
 
+    /// <summary>Başlık ve açıklamanın İngilizcesi; arayüz dil seçimine göre birini gösterir.</summary>
+    public string? TitleEn { get; init; }
+    public string? DetailEn { get; init; }
+
     /// <summary>publish/consume için mesaj tipinin adı (ör. ReserveStockCommand).</summary>
     public string? MessageType { get; init; }
 

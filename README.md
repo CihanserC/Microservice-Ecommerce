@@ -4,10 +4,10 @@ A minimalist, production-ready microservices skeleton for an e-commerce domain d
 
 It ships with an **interactive simulator**: a web UI that animates every HTTP call, message, database write and saga transition as it happens, and opens the exact line of code that produced it.
 
-Lesson-style walkthroughs (Turkish):
+Lesson-style walkthroughs:
 
-- [docs/mimari-anlatimi.md](docs/mimari-anlatimi.md): why the architecture is shaped this way.
-- [docs/saga-ve-simulator.md](docs/saga-ve-simulator.md): the saga, compensation, outbox/idempotency, and how the simulator works.
+- [docs/architecture-overview.md](docs/architecture-overview.md): why the architecture is shaped this way.
+- [docs/saga-and-simulator.md](docs/saga-and-simulator.md): the saga, compensation, outbox/idempotency, and how the simulator works.
 
 ## Architecture
 
@@ -100,11 +100,17 @@ Migrations run on startup, and Catalog seeds four products with stock levels cho
 
 ## Using the simulator
 
+- **Language**: the TR / EN switch in the top bar changes the whole UI instantly, including traces already on screen.
 - **Scenarios**: one click fills the basket, picks the payment behavior and checks out.
-  - *Mutlu yol*: the order is `Completed`.
-  - *Stok yetersiz*: Catalog rejects the order and there is nothing to undo, so it is `Cancelled`.
-  - *Ödeme reddi + telafi*: stock is reserved, the payment is declined, stock is released, and the order is `Cancelled`.
-- **Step mode** (`Adım adım`): plays one trace at a time (→ key). The detail panel explains the step and highlights the code line that emitted it.
+  - *Happy path*: the order is `Completed`.
+  - *Out of stock*: Catalog rejects the order and there is nothing to undo, so it is `Cancelled`.
+  - *Payment declined + compensation*: stock is reserved, the payment is declined, stock is released, and the order is `Cancelled`.
+- **Step mode**: plays one trace at a time (→ key). The "What is happening?" panel on the left explains the step in place and highlights the code line that emitted it; the page never scrolls.
+- **Store & settings drawer** (☰): the catalog, basket and payment settings slide in from the left.
+- **Full screen diagram**: the ⛶ button on the Architecture card (or the F key) shows the diagram full screen; step mode keeps its "Next step" button there.
+- **Mobile**: the layout stacks on phones and the explanation becomes an always-visible bottom sheet.
+- **Speed**: from 0.1× slow motion up to 4× or instant.
+- **Concepts**: a searchable, bilingual library of microservice concepts (API Gateway, BFF, saga, outbox, circuit breaker, bulkhead, service discovery, strangler fig and more), each tied back to this codebase.
 - **Click any box** in the diagram to see that component's responsibility and key files.
 - **Catalog / basket / payment panels**: edit stock, build a basket by hand, and change the payment rules or bank delay.
 

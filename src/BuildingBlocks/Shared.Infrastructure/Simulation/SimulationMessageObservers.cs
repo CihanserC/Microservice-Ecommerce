@@ -18,9 +18,10 @@ public sealed class SimulationPublishObserver(ISimulationTracer tracer) : IPubli
 
         var messageType = typeof(T).Name;
         return tracer.TraceAsync(
-            $"{messageType} yayınlandı",
+            new($"{messageType} yayınlandı", $"{messageType} published"),
             TraceKinds.Publish,
-            detail: "Mesaj RabbitMQ exchange'ine bırakıldı. Yayınlayan, kimin dinlediğini bilmez.",
+            detail: new("Mesaj RabbitMQ exchange'ine bırakıldı. Yayınlayan, kimin dinlediğini bilmez.",
+                "The message was handed to a RabbitMQ exchange. The publisher does not know who is listening."),
             orderId: MessageInspector.TryGetOrderId(context.Message),
             payload: context.Message,
             messageType: messageType,
@@ -34,7 +35,7 @@ public sealed class SimulationPublishObserver(ISimulationTracer tracer) : IPubli
             return Task.CompletedTask;
 
         return tracer.TraceAsync(
-            $"{typeof(T).Name} yayınlanamadı",
+            new($"{typeof(T).Name} yayınlanamadı", $"{typeof(T).Name} could not be published"),
             TraceKinds.Error,
             detail: exception.Message,
             orderId: MessageInspector.TryGetOrderId(context.Message),
@@ -53,10 +54,11 @@ public sealed class SimulationConsumeObserver(ISimulationTracer tracer) : IConsu
             return Task.CompletedTask;
 
         var messageType = typeof(T).Name;
+        var queue = context.ReceiveContext.InputAddress.AbsolutePath.Trim('/');
         return tracer.TraceAsync(
-            $"{messageType} alındı",
+            new($"{messageType} alındı", $"{messageType} received"),
             TraceKinds.Consume,
-            detail: $"Kuyruk: {context.ReceiveContext.InputAddress.AbsolutePath.Trim('/')}",
+            detail: new($"Kuyruk: {queue}", $"Queue: {queue}"),
             orderId: MessageInspector.TryGetOrderId(context.Message),
             payload: context.Message,
             messageType: messageType,
@@ -72,9 +74,11 @@ public sealed class SimulationConsumeObserver(ISimulationTracer tracer) : IConsu
             return Task.CompletedTask;
 
         return tracer.TraceAsync(
-            $"{typeof(T).Name} işlenirken hata",
+            new($"{typeof(T).Name} işlenirken hata", $"Error while handling {typeof(T).Name}"),
             TraceKinds.Error,
-            detail: $"{exception.GetType().Name}: {exception.Message}. Retry politikası mesajı yeniden deneyecek; denemeler biterse mesaj _error kuyruğuna düşer.",
+            detail: new(
+                $"{exception.GetType().Name}: {exception.Message}. Retry politikası mesajı yeniden deneyecek; denemeler biterse mesaj _error kuyruğuna düşer.",
+                $"{exception.GetType().Name}: {exception.Message}. The retry policy will redeliver the message; once retries run out it moves to the _error queue."),
             orderId: MessageInspector.TryGetOrderId(context.Message),
             messageType: typeof(T).Name,
             callerFile: "",

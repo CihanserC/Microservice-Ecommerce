@@ -54,9 +54,10 @@ public sealed class BasketCheckoutConsumer(
         await dbContext.SaveChangesAsync(context.CancellationToken);
 
         await tracer.TraceAsync(
-            "Sipariş Pending olarak kaydedildi",
+            new("Sipariş Pending olarak kaydedildi", "Order saved as Pending"),
             TraceKinds.Database,
-            detail: "Orders + OrderItems satırları ve OrderCreatedEvent (OutboxMessage) tek transaction'da yazıldı.",
+            detail: new("Orders + OrderItems satırları ve OrderCreatedEvent (OutboxMessage) tek transaction'da yazıldı.",
+                "The Orders + OrderItems rows and OrderCreatedEvent (OutboxMessage) were written in one transaction."),
             orderId: order.Id,
             payload: new { order.Id, order.UserName, status = order.Status.ToString(), total = order.TotalPrice.Amount });
 

@@ -31,7 +31,8 @@ public sealed class SimulationHttpTraceMiddleware(RequestDelegate next, ISimulat
         await tracer.TraceAsync(
             $"HTTP {route}",
             TraceKinds.Http,
-            detail: "Senkron çağrı: istemci bu isteğin cevabını bekliyor.",
+            detail: new("Senkron çağrı: istemci bu isteğin cevabını bekliyor.",
+                "Synchronous call: the client is waiting for this response."),
             payload: new { method = request.Method, path = request.Path.Value },
             callerFile: "",
             callerLine: 0);
@@ -43,7 +44,8 @@ public sealed class SimulationHttpTraceMiddleware(RequestDelegate next, ISimulat
         await tracer.TraceAsync(
             $"HTTP {context.Response.StatusCode} ← {route}",
             TraceKinds.HttpResponse,
-            detail: $"Cevap {stopwatch.ElapsedMilliseconds} ms sonra döndü.",
+            detail: new($"Cevap {stopwatch.ElapsedMilliseconds} ms sonra döndü.",
+                $"Response returned after {stopwatch.ElapsedMilliseconds} ms."),
             payload: new
             {
                 method = request.Method,

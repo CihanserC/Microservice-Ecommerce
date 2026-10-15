@@ -47,7 +47,8 @@ public sealed class OrderStateMachine : MassTransitStateMachine<OrderState>
                 })
                 .TransitionTo(AwaitingStock)
                 .ThenAsync(ctx => TraceTransition(ctx, Initial, AwaitingStock,
-                    "Saga başladı: Catalog'a stok ayırma komutu gönderiliyor"))
+                    new("Saga başladı: Catalog'a stok ayırma komutu gönderiliyor",
+                        "Saga started: sending the reserve-stock command to Catalog")))
                 .Publish(ctx => new ReserveStockCommand
                 {
                     OrderId = ctx.Saga.CorrelationId,
@@ -60,7 +61,8 @@ public sealed class OrderStateMachine : MassTransitStateMachine<OrderState>
                 .Then(ctx => ctx.Saga.UpdatedAt = DateTime.UtcNow)
                 .TransitionTo(AwaitingPayment)
                 .ThenAsync(ctx => TraceTransition(ctx, AwaitingStock, AwaitingPayment,
-                    "Stok ayrıldı: Payment'a ödeme komutu gönderiliyor"))
+                    new("Stok ayrıldı: Payment'a ödeme komutu gönderiliyor",
+                        "Stock reserved: sending the payment command to Payment")))
                 .Publish(ctx => new ProcessPaymentCommand
                 {
                     OrderId = ctx.Saga.CorrelationId,
@@ -77,7 +79,8 @@ public sealed class OrderStateMachine : MassTransitStateMachine<OrderState>
                 })
                 .TransitionTo(Cancelled)
                 .ThenAsync(ctx => TraceTransition(ctx, AwaitingStock, Cancelled,
-                    "Stok ayrılamadı: geri alınacak adım yok, sipariş iptal"))
+                    new("Stok ayrılamadı: geri alınacak adım yok, sipariş iptal",
+                        "Stock could not be reserved: nothing to undo, order cancelled")))
                 .Publish(ctx => new OrderCancelledEvent
                 {
                     OrderId = ctx.Saga.CorrelationId,
@@ -94,7 +97,7 @@ public sealed class OrderStateMachine : MassTransitStateMachine<OrderState>
                 })
                 .TransitionTo(Completed)
                 .ThenAsync(ctx => TraceTransition(ctx, AwaitingPayment, Completed,
-                    "Ödeme alındı: sipariş tamamlandı"))
+                    new("Ödeme alındı: sipariş tamamlandı", "Payment received: order completed")))
                 .Publish(ctx => new OrderCompletedEvent { OrderId = ctx.Saga.CorrelationId }),
 
             // 3b) Ödeme reddedildi → TELAFİ: daha önce başarılı olan stok adımını geri al.
@@ -106,7 +109,8 @@ public sealed class OrderStateMachine : MassTransitStateMachine<OrderState>
                 })
                 .TransitionTo(Compensating)
                 .ThenAsync(ctx => TraceTransition(ctx, AwaitingPayment, Compensating,
-                    "Ödeme reddedildi: telafi başlıyor, Catalog'a stoğu geri bırak komutu gönderiliyor"))
+                    new("Ödeme reddedildi: telafi başlıyor, Catalog'a stoğu geri bırak komutu gönderiliyor",
+                        "Payment declined: compensation starts, sending the release-stock command to Catalog")))
                 .Publish(ctx => new ReleaseStockCommand
                 {
                     OrderId = ctx.Saga.CorrelationId,
@@ -119,7 +123,8 @@ public sealed class OrderStateMachine : MassTransitStateMachine<OrderState>
                 .Then(ctx => ctx.Saga.UpdatedAt = DateTime.UtcNow)
                 .TransitionTo(Cancelled)
                 .ThenAsync(ctx => TraceTransition(ctx, Compensating, Cancelled,
-                    "Telafi tamamlandı: stok geri bırakıldı, sipariş iptal"))
+                    new("Telafi tamamlandı: stok geri bırakıldı, sipariş iptal",
+                        "Compensation done: stock released, order cancelled")))
                 .Publish(ctx => new OrderCancelledEvent
                 {
                     OrderId = ctx.Saga.CorrelationId,
@@ -151,13 +156,14 @@ public sealed class OrderStateMachine : MassTransitStateMachine<OrderState>
         BehaviorContext<OrderState> context,
         State from,
         State to,
-        string title,
+        TraceText title,
         [CallerFilePath] string callerFile = "",
         [CallerLineNumber] int callerLine = 0) =>
         _tracer.TraceAsync(
             title,
             TraceKinds.Saga,
-            detail: $"Saga durumu: {from.Name} → {to.Name}. Durum OrderSagaStates tablosunda saklanır.",
+            detail: new($"Saga durumu: {from.Name} → {to.Name}. Durum OrderSagaStates tablosunda saklanır.",
+                $"Saga state: {from.Name} → {to.Name}. The state is stored in the OrderSagaStates table."),
             orderId: context.Saga.CorrelationId,
             payload: context.Saga,
             fromState: from.Name,

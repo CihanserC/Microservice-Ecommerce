@@ -1,5 +1,6 @@
 // Kaynak kod görüntüleyici: dosyayı /sim/source'tan alır, renklendirir, ilgili satırı işaretler.
 import { background } from './api.js';
+import { t, tx } from './i18n.js';
 
 const cache = new Map();
 
@@ -19,7 +20,7 @@ async function load(path) {
 }
 
 /**
- * refs: [{ label, path, line?, find? }] — birden fazlaysa sekme olarak gösterilir.
+ * refs: [{ label, path, line?, find? }] — birden fazlaysa sekme olarak gösterilir. label düz metin ya da {tr, en} olabilir.
  */
 export async function renderCode(container, refs) {
   container.innerHTML = '';
@@ -34,12 +35,12 @@ export async function renderCode(container, refs) {
 
   const show = async (ref, button) => {
     tabs.querySelectorAll('button').forEach(b => b.setAttribute('aria-selected', String(b === button)));
-    body.innerHTML = '<div class="code-loading">Kod yükleniyor…</div>';
+    body.innerHTML = `<div class="code-loading">${escapeHtml(t('code.loading'))}</div>`;
     try {
       const text = await load(ref.path);
       renderFile(body, ref, text);
     } catch {
-      body.innerHTML = `<div class="code-loading">Kaynak okunamadı: <code>src/${escapeHtml(ref.path)}</code></div>`;
+      body.innerHTML = `<div class="code-loading">${escapeHtml(t('code.failed'))} <code>src/${escapeHtml(ref.path)}</code></div>`;
     }
   };
 
@@ -47,7 +48,7 @@ export async function renderCode(container, refs) {
     const b = document.createElement('button');
     b.type = 'button';
     b.setAttribute('role', 'tab');
-    b.textContent = ref.label;
+    b.textContent = tx(ref.label);
     b.title = `src/${ref.path}`;
     b.addEventListener('click', () => show(ref, b));
     tabs.append(b);
@@ -65,7 +66,7 @@ function renderFile(body, ref, text) {
 
   const header = document.createElement('div');
   header.className = 'code-path';
-  header.innerHTML = `<span>src/${escapeHtml(ref.path)}</span>${target ? `<span class="code-line-no">satır ${target}</span>` : ''}`;
+  header.innerHTML = `<span>src/${escapeHtml(ref.path)}</span>${target ? `<span class="code-line-no">${escapeHtml(t('code.line', { n: target }))}</span>` : ''}`;
 
   const pre = document.createElement('pre');
   pre.className = 'code';

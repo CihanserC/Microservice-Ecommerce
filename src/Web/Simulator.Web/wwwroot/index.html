@@ -2,174 +2,223 @@
 <html lang="tr">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0d1117">
   <title>Mikroservis Laboratuvarı</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke-width='1.8' stroke-linecap='round'%3E%3Crect width='24' height='24' rx='6' fill='%230d1117'/%3E%3Cpath stroke='%23e6edf3' d='M8.8 7h6.4M7.34 9.46l3.32 6.08M16.66 9.46l-3.32 6.08'/%3E%3Ccircle stroke='%23e6edf3' cx='6' cy='7' r='2.2'/%3E%3Ccircle stroke='%23e6edf3' cx='18' cy='7' r='2.2'/%3E%3Ccircle stroke='%234ea1ff' fill='%234ea1ff' cx='12' cy='18' r='2.2'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="css/app.css">
 </head>
 <body>
   <header class="topbar">
     <div class="brand">
-      <span class="brand-mark" aria-hidden="true">◇</span>
-      <div>
-        <h1>Mikroservis Laboratuvarı</h1>
-        <p>Bir butona bas, isteğin servisler arasında nasıl aktığını ve hangi kodun çalıştığını izle.</p>
+      <button type="button" id="open-drawer" class="btn drawer-btn" aria-controls="drawer" aria-expanded="false" data-i18n-title="drw.openTitle">
+        <span class="burger" aria-hidden="true">☰</span>
+        <span class="drawer-btn-label" data-i18n="drw.open">Mağaza ve ayarlar</span>
+        <span id="basket-count" class="pill" hidden>0</span>
+      </button>
+      <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M8.8 7h6.4M7.34 9.46l3.32 6.08M16.66 9.46l-3.32 6.08"/><circle cx="6" cy="7" r="2.2"/><circle cx="18" cy="7" r="2.2"/><circle class="brand-dot" cx="12" cy="18" r="2.2"/></svg></span>
+      <div class="brand-text">
+        <h1 data-i18n="app.title">Mikroservis Laboratuvarı</h1>
+        <p data-i18n="app.tagline">Bir butona bas, isteğin servisler arasında nasıl aktığını ve hangi kodun çalıştığını izle.</p>
       </div>
     </div>
 
-    <div class="controls" role="toolbar" aria-label="Oynatma kontrolleri">
-      <span id="conn" class="conn" data-state="connecting"><i></i><span>Bağlanıyor…</span></span>
+    <div class="controls" role="toolbar" data-i18n-aria="ctl.toolbar">
+      <span id="conn" class="conn" data-state="connecting"><i></i><span data-i18n="conn.connecting">Bağlanıyor…</span></span>
 
-      <div class="seg" role="radiogroup" aria-label="Oynatma modu">
-        <button type="button" data-mode="auto" aria-pressed="true">Otomatik</button>
-        <button type="button" data-mode="step" aria-pressed="false">Adım adım</button>
+      <div class="seg" role="radiogroup" data-i18n-aria="ctl.mode">
+        <button type="button" data-mode="auto" aria-pressed="true" data-i18n="ctl.auto">Otomatik</button>
+        <button type="button" data-mode="step" aria-pressed="false" data-i18n="ctl.step">Adım adım</button>
       </div>
-      <button type="button" id="next-step" class="btn" disabled title="Sıradaki izi oynat (→ tuşu)">
-        Sonraki adım <span id="queue-count" class="pill">0</span>
+      <button type="button" class="btn next-step" disabled data-i18n-title="ctl.nextTitle">
+        <span data-i18n="ctl.next">Sonraki adım</span> <span class="pill queue-count">0</span>
       </button>
 
-      <label class="inline">Hız
+      <label class="inline"><span data-i18n="ctl.speed">Hız</span>
         <select id="speed">
+          <option value="0.1">0.1×</option>
           <option value="0.5">0.5×</option>
           <option value="1" selected>1×</option>
           <option value="2">2×</option>
           <option value="4">4×</option>
-          <option value="0">Anında</option>
+          <option value="0" data-i18n="ctl.instant">Anında</option>
         </select>
       </label>
-      <button type="button" id="clear" class="btn ghost">Temizle</button>
-      <button type="button" id="open-concepts" class="btn ghost">Kavramlar</button>
+      <button type="button" id="clear" class="btn ghost" data-i18n="ctl.clear">Temizle</button>
+      <button type="button" id="open-concepts" class="btn ghost" data-i18n="ctl.concepts">Kavramlar</button>
+      <div class="seg lang" role="group" data-i18n-aria="ctl.language">
+        <button type="button" data-lang="tr" aria-pressed="true">TR</button>
+        <button type="button" data-lang="en" aria-pressed="false">EN</button>
+      </div>
     </div>
   </header>
 
-  <main class="layout">
-    <!-- SOL: kullanıcı aksiyonları -->
-    <aside class="col col-left">
+  <!-- ÇEKMECE: katalog, sepet ve ödeme ayarları -->
+  <div id="drawer-backdrop" class="drawer-backdrop" hidden></div>
+  <aside id="drawer" class="drawer" aria-labelledby="drawer-title" inert>
+    <div class="drawer-head">
+      <h2 id="drawer-title" data-i18n="drw.title">Mağaza ve ayarlar</h2>
+      <button type="button" id="close-drawer" class="btn ghost small" data-i18n="det.close">Kapat</button>
+    </div>
+    <div class="drawer-body">
       <section class="card">
-        <h2>Senaryolar</h2>
-        <p class="hint">Tek tıkla sepeti doldurur, ödeme ayarını seçer ve checkout yapar.</p>
-        <div class="scenarios">
-          <button type="button" class="scenario ok" data-scenario="happy">
-            <strong>Mutlu yol</strong>
-            <span>Stok var, ödeme onaylanır → <b>Completed</b></span>
-          </button>
-          <button type="button" class="scenario warn" data-scenario="stock">
-            <strong>Stok yetersiz</strong>
-            <span>Catalog reddeder, geri alınacak bir şey yok → <b>Cancelled</b></span>
-          </button>
-          <button type="button" class="scenario bad" data-scenario="payment">
-            <strong>Ödeme reddi + telafi</strong>
-            <span>Stok düşer, ödeme reddedilir, stok geri gelir → <b>Cancelled</b></span>
-          </button>
-        </div>
+        <h2><span data-i18n="cat.title">Katalog</span> <small>Catalog.API</small></h2>
+        <div id="products" class="products"><p class="hint" data-i18n="cat.loading">Yükleniyor…</p></div>
       </section>
 
       <section class="card">
-        <h2>Katalog <small>Catalog.API</small></h2>
-        <div id="products" class="products"><p class="hint">Yükleniyor…</p></div>
-      </section>
-
-      <section class="card">
-        <h2>Sepet <small>Basket.API</small></h2>
-        <label class="field">Kullanıcı
+        <h2><span data-i18n="bsk.title">Sepet</span> <small>Basket.API</small></h2>
+        <label class="field"><span data-i18n="bsk.user">Kullanıcı</span>
           <input id="user" value="ayse" autocomplete="off" spellcheck="false">
         </label>
         <div id="basket" class="basket"></div>
         <div class="row">
-          <button type="button" id="checkout" class="btn primary">Checkout</button>
-          <button type="button" id="empty-basket" class="btn ghost">Boşalt</button>
+          <button type="button" id="checkout" class="btn primary" data-i18n="bsk.checkout">Checkout</button>
+          <button type="button" id="empty-basket" class="btn ghost" data-i18n="bsk.clear">Boşalt</button>
         </div>
+        <p class="hint" data-i18n="drw.checkoutHint">Checkout sonrası çekmece kapanır, akışı izleyebilirsin.</p>
       </section>
 
       <section class="card">
-        <h2>Ödeme servisi <small>Payment.API</small></h2>
-        <label class="field">Davranış
+        <h2><span data-i18n="pay.title">Ödeme servisi</span> <small>Payment.API</small></h2>
+        <label class="field"><span data-i18n="pay.behavior">Davranış</span>
           <select id="pay-mode">
-            <option value="FailAboveLimit">Limit üstünü reddet</option>
-            <option value="AlwaysSucceed">Her zaman onayla</option>
-            <option value="AlwaysFail">Her zaman reddet</option>
+            <option value="FailAboveLimit" data-i18n="pay.FailAboveLimit">Limit üstünü reddet</option>
+            <option value="AlwaysSucceed" data-i18n="pay.AlwaysSucceed">Her zaman onayla</option>
+            <option value="AlwaysFail" data-i18n="pay.AlwaysFail">Her zaman reddet</option>
           </select>
         </label>
-        <label class="field">Kart limiti (₺)
-          <input id="pay-limit" type="number" min="0" step="1000" value="20000">
+        <label class="field"><span data-i18n="pay.limit">Kart limiti (₺)</span>
+          <input id="pay-limit" type="number" min="0" step="1000" value="20000" inputmode="numeric">
         </label>
-        <label class="field">Banka gecikmesi <output id="pay-delay-out">1500 ms</output>
+        <label class="field"><span><span data-i18n="pay.delay">Banka gecikmesi</span> <output id="pay-delay-out">1500 ms</output></span>
           <input id="pay-delay" type="range" min="0" max="5000" step="250" value="1500">
         </label>
-        <button type="button" id="pay-apply" class="btn">Uygula</button>
+        <button type="button" id="pay-apply" class="btn" data-i18n="pay.apply">Uygula</button>
+      </section>
+    </div>
+  </aside>
+
+  <main class="layout">
+    <!-- SOL: ne oluyor + akış (her zaman görünür) -->
+    <aside class="col col-left">
+      <section id="detail" class="card detail collapsed" aria-live="polite">
+        <div class="card-head detail-head">
+          <button type="button" id="sheet-toggle" class="sheet-toggle" aria-expanded="false" data-i18n-aria="det.toggle">
+            <span class="sheet-grip" aria-hidden="true"></span>
+            <span class="detail-kicker" data-i18n="det.what">Ne oluyor?</span>
+            <h2 id="detail-title"></h2>
+          </button>
+          <div class="detail-actions">
+            <button type="button" class="btn small primary next-step" disabled data-i18n-title="ctl.nextTitle">
+              <span data-i18n="ctl.next">Sonraki adım</span> <span class="pill queue-count">0</span>
+            </button>
+            <button type="button" id="detail-close" class="btn ghost small" hidden data-i18n="det.clear" data-i18n-aria="det.closeAria">Temizle</button>
+          </div>
+        </div>
+        <div class="detail-scroll">
+          <div id="detail-empty" class="detail-empty">
+            <p data-i18n="det.emptyLead">Akıştan bir adıma ya da diyagramdan bir kutuya tıkla; açıklaması ve kodu burada açılır.</p>
+            <p class="hint" data-i18n="det.emptyStep">“Adım adım” modunda her adım sırayla burada anlatılır. “Sonraki adım” ya da → tuşu ile ilerle.</p>
+          </div>
+          <div id="detail-body"></div>
+          <div id="detail-code" class="codeview"></div>
+        </div>
+      </section>
+
+      <section class="card timeline-card">
+        <div class="card-head">
+          <h2 data-i18n="tl.title">Akış</h2>
+          <label class="inline small"><input type="checkbox" id="filter-order"> <span data-i18n="tl.filter">Sadece takip edilen sipariş</span></label>
+        </div>
+        <ol id="timeline" class="timeline"></ol>
+        <p id="timeline-empty" class="hint" data-i18n="tl.empty">Henüz iz yok. Bir senaryo çalıştır.</p>
       </section>
     </aside>
 
-    <!-- ORTA: mimari ve saga -->
+    <!-- SAĞ: senaryolar, mimari, saga, siparişler -->
     <section class="col col-center">
+      <section class="card scenarios-card">
+        <div class="card-head">
+          <h2 data-i18n="scn.title">Senaryolar</h2>
+          <p class="hint" data-i18n="scn.hint">Tek tıkla sepeti doldurur, ödeme ayarını seçer ve checkout yapar.</p>
+        </div>
+        <div class="scenarios">
+          <button type="button" class="scenario ok" data-scenario="happy">
+            <strong data-i18n="scn.happy">Mutlu yol</strong>
+            <span data-i18n-html="scn.happyDesc">Stok var, ödeme onaylanır → <b>Completed</b></span>
+          </button>
+          <button type="button" class="scenario warn" data-scenario="stock">
+            <strong data-i18n="scn.stock">Stok yetersiz</strong>
+            <span data-i18n-html="scn.stockDesc">Catalog reddeder, geri alınacak bir şey yok → <b>Cancelled</b></span>
+          </button>
+          <button type="button" class="scenario bad" data-scenario="payment">
+            <strong data-i18n="scn.payment">Ödeme reddi + telafi</strong>
+            <span data-i18n-html="scn.paymentDesc">Stok düşer, ödeme reddedilir, stok geri gelir → <b>Cancelled</b></span>
+          </button>
+        </div>
+      </section>
+
       <section class="card diagram-card">
         <div class="card-head">
-          <h2>Mimari</h2>
-          <div class="legend" aria-label="Renk açıklaması">
-            <span><i class="sw http"></i>HTTP (senkron)</span>
-            <span><i class="sw msg"></i>Mesaj (asenkron)</span>
-            <span><i class="sw db"></i>Veritabanı</span>
-            <span><i class="sw saga"></i>Saga</span>
-            <span><i class="sw err"></i>Hata</span>
+          <h2 data-i18n="arch.title">Mimari</h2>
+          <div class="diagram-tools">
+            <button type="button" class="btn small primary next-step fs-only" disabled data-i18n-title="ctl.nextTitle">
+              <span data-i18n="ctl.next">Sonraki adım</span> <span class="pill queue-count">0</span>
+            </button>
+            <button type="button" id="diagram-fullscreen" class="btn small ghost" aria-pressed="false" data-i18n-title="arch.fullscreenTitle">
+              <svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><path class="ico-enter" d="M2 6V2h4M10 2h4v4M14 10v4h-4M6 14H2v-4"/><path class="ico-exit" d="M6 2v4H2M14 6h-4V2M10 14v-4h4M2 10h4v4"/></svg>
+              <span class="fs-label" data-i18n="arch.fullscreen">Tam ekran</span>
+            </button>
+          </div>
+          <div class="legend" data-i18n-aria="arch.legend">
+            <span><i class="sw http"></i><span data-i18n="arch.http">HTTP (senkron)</span></span>
+            <span><i class="sw msg"></i><span data-i18n="arch.msg">Mesaj (asenkron)</span></span>
+            <span><i class="sw db"></i><span data-i18n="arch.db">Veritabanı</span></span>
+            <span><i class="sw saga"></i><span data-i18n="arch.saga">Saga</span></span>
+            <span><i class="sw err"></i><span data-i18n="arch.err">Hata</span></span>
           </div>
         </div>
         <div class="diagram-wrap">
-          <svg id="diagram" role="img" aria-label="Servisler, veritabanları ve RabbitMQ diyagramı"></svg>
+          <svg id="diagram" role="img" data-i18n-aria="arch.aria"></svg>
         </div>
-        <p class="hint">Bir kutuya tıkla: o parçanın görevi ve ilgili kod dosyaları açılır.</p>
+        <p class="hint" data-i18n="arch.hint">Bir kutuya tıkla: o parçanın görevi ve ilgili kod dosyaları açılır.</p>
       </section>
 
       <section class="card">
         <div class="card-head">
-          <h2>Saga <small id="saga-title">— henüz sipariş yok</small></h2>
+          <h2>Saga <small id="saga-title"></small></h2>
         </div>
         <div class="saga-wrap">
-          <svg id="saga" viewBox="0 0 760 150" role="img" aria-label="Sipariş saga durum makinesi"></svg>
+          <svg id="saga" viewBox="0 0 760 150" role="img" data-i18n-aria="saga.aria"></svg>
         </div>
-        <p id="saga-desc" class="hint">Checkout yaptığında sipariş burada adım adım ilerler.</p>
+        <p id="saga-desc" class="hint"></p>
       </section>
 
       <section class="card">
         <div class="card-head">
-          <h2>Siparişler <small>Order.API</small></h2>
-          <button type="button" id="refresh-orders" class="btn ghost small">Yenile</button>
+          <h2><span data-i18n="ord.title">Siparişler</span> <small>Order.API</small></h2>
+          <button type="button" id="refresh-orders" class="btn ghost small" data-i18n="ord.refresh">Yenile</button>
         </div>
         <div class="table-wrap">
           <table class="orders">
-            <thead><tr><th>Sipariş</th><th>Kullanıcı</th><th class="num">Tutar</th><th>Durum</th><th>Saga</th></tr></thead>
-            <tbody id="orders"><tr><td colspan="5" class="hint">Henüz sipariş yok.</td></tr></tbody>
+            <thead><tr>
+              <th data-i18n="ord.order">Sipariş</th><th data-i18n="ord.user">Kullanıcı</th><th class="num" data-i18n="ord.amount">Tutar</th>
+              <th data-i18n="ord.status">Durum</th><th data-i18n="ord.saga">Saga</th>
+            </tr></thead>
+            <tbody id="orders"></tbody>
           </table>
         </div>
       </section>
     </section>
-
-    <!-- SAĞ: akış ve detay -->
-    <aside class="col col-right">
-      <section class="card timeline-card">
-        <div class="card-head">
-          <h2>Akış</h2>
-          <label class="inline small"><input type="checkbox" id="filter-order"> Sadece takip edilen sipariş</label>
-        </div>
-        <ol id="timeline" class="timeline" aria-live="polite"></ol>
-        <p id="timeline-empty" class="hint">Henüz iz yok. Soldan bir senaryo çalıştır.</p>
-      </section>
-
-      <section id="detail" class="card detail" hidden>
-        <div class="card-head">
-          <h2 id="detail-title">Detay</h2>
-          <button type="button" id="detail-close" class="btn ghost small" aria-label="Detayı kapat">Kapat</button>
-        </div>
-        <div id="detail-body"></div>
-        <div id="detail-code" class="codeview"></div>
-      </section>
-    </aside>
   </main>
 
-  <dialog id="concepts" class="concepts">
+  <dialog id="concepts" class="concepts" aria-labelledby="concepts-title">
     <div class="card-head">
-      <h2>Kavramlar</h2>
-      <button type="button" class="btn ghost small" data-close>Kapat</button>
+      <h2 id="concepts-title" data-i18n="cpt.title">Kavramlar</h2>
+      <button type="button" class="btn ghost small" data-close data-i18n="det.close">Kapat</button>
     </div>
-    <div id="concepts-body"></div>
+    <div id="concepts-body" class="cpt"></div>
   </dialog>
 
   <div id="toasts" class="toasts" aria-live="assertive"></div>

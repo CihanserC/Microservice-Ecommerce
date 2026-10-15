@@ -1,5 +1,6 @@
 // Mimari diyagramı (SVG) ve üzerinde akan "paket" animasyonları.
 import { SERVICES } from './knowledge.js';
+import { t, tx } from './i18n.js';
 
 const NS = 'http://www.w3.org/2000/svg';
 
@@ -34,9 +35,10 @@ const COLORS = {
 };
 
 export class Diagram {
-  constructor(svg, { onNodeClick }) {
+  constructor(svg, { onNodeClick, eventTitle }) {
     this.svg = svg;
     this.onNodeClick = onNodeClick;
+    this.eventTitle = eventTitle ?? (ev => ev.title);
     this.nodeEls = {};
     this.lastPublisher = new Map(); // messageType|orderId -> servis
     this.build();
@@ -77,7 +79,6 @@ export class Diagram {
   buildNode(id, n) {
     const info = SERVICES[id];
     const g = el('g', { class: `node node-${n.kind}`, 'data-id': id, tabindex: 0, role: 'button' });
-    g.setAttribute('aria-label', `${info.name} hakkında`);
     const x = n.x - n.w / 2, y = n.y - n.h / 2;
 
     if (n.kind === 'db') {
@@ -91,12 +92,9 @@ export class Diagram {
       g.append(el('rect', { class: 'shape', x, y, width: n.w, height: n.h, rx: n.kind === 'bus' ? 23 : 12 }));
     }
 
-    const title = el('text', { class: 'node-title', x: n.x, y: n.y - (n.kind === 'db' ? 0 : 4) });
-    title.textContent = info.name;
-    g.append(title);
-    const sub = el('text', { class: 'node-sub', x: n.x, y: n.y + (n.kind === 'db' ? 15 : 17) });
-    sub.textContent = info.sub;
-    g.append(sub);
+    g.append(el('text', { class: 'node-title', x: n.x, y: n.y - (n.kind === 'db' ? 0 : 4) }));
+    g.append(el('text', { class: 'node-sub', x: n.x, y: n.y + (n.kind === 'db' ? 15 : 17) }));
+    this.label(g, info);
 
     if (n.kind === 'service' || n.kind === 'gateway') {
       const badge = el('text', { class: 'node-badge', x: n.x, y: y - 8 });
@@ -107,6 +105,17 @@ export class Diagram {
     g.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); this.onNodeClick(id); } });
     this.nodeEls[id] = g;
     return g;
+  }
+
+  label(g, info) {
+    g.setAttribute('aria-label', t('arch.about', { name: tx(info.name) }));
+    g.querySelector('.node-title').textContent = tx(info.name);
+    g.querySelector('.node-sub').textContent = tx(info.sub);
+  }
+
+  /** Dil değişince kutu adlarını günceller. */
+  relabel() {
+    for (const [id, g] of Object.entries(this.nodeEls)) this.label(g, SERVICES[id]);
   }
 
   /** Bir iz olayını yol parçalarına çevirir. */
@@ -134,8 +143,12 @@ export class Diagram {
     }
   }
 
-  /** Olayı canlandırır; süre (ms) hız ayarına göre ölçeklenir. */
-  async play(event, { duration }) {
+  /**
+   * Olayı canlandırır. Paket her hatta AYNI hızla (pxPerMs, viewBox birimi/ms) ve sabit hızla ilerler;
+   * böylece kısa hatlar (servis → DB) ile uzun hatlar (RabbitMQ hattı) arasında hız farkı olmaz.
+   * Yolu olmayan olaylarda (ör. iş adımı) yalnızca idleMs kadar beklenir. pxPerMs = 0 → anında.
+   */
+  async play(event, { pxPerMs, idleMs }) {
     const segments = this.routeFor(event);
     const color = COLORS[event.kind] ?? 'var(--c-muted)';
     const label = event.messageType || (event.kind === 'saga' ? event.toState : '');
@@ -145,8 +158,8 @@ export class Diagram {
     if (event.kind === 'publish' || event.kind === 'consume') this.flash('rabbit', event.kind);
     this.badge(event);
 
-    if (!segments.length || duration <= 0) {
-      if (duration > 0) await wait(duration * 0.6);
+    if (!segments.length || pxPerMs <= 0) {
+      if (pxPerMs > 0) await wait(idleMs);
       return;
     }
 
@@ -159,8 +172,7 @@ export class Diagram {
     }
     this.packets.append(packet);
 
-    const per = duration / segments.length;
-    for (const [a, b] of segments) await animate(packet, a, b, per);
+    for (const [a, b] of segments) await animate(packet, a, b, distance(a, b) / pxPerMs);
     packet.classList.add('fade');
     setTimeout(() => packet.remove(), 260);
   }
@@ -177,7 +189,8 @@ export class Diagram {
     const g = this.nodeEls[event.service];
     const badge = g?.querySelector('.node-badge');
     if (!badge) return;
-    const text = event.kind === 'saga' ? `◆ ${event.toState}` : event.kind === 'error' ? `✕ ${event.title}` : event.title;
+    const title = this.eventTitle(event);
+    const text = event.kind === 'saga' ? `◆ ${event.toState}` : event.kind === 'error' ? `✕ ${title}` : title;
     badge.textContent = text.length > 30 ? text.slice(0, 29) + '…' : text;
     badge.classList.remove('show');
     void badge.getBBox();
@@ -186,6 +199,8 @@ export class Diagram {
 }
 
 function key(event) { return `${event.messageType}|${event.orderId ?? ''}`; }
+
+function distance([x1, y1], [x2, y2]) { return Math.hypot(x2 - x1, y2 - y1); }
 
 function top(n) { return [n.x, n.y - n.h / 2]; }
 function bottom(n) { return [n.x, n.y + n.h / 2]; }
@@ -208,9 +223,9 @@ function animate(node, [x1, y1], [x2, y2], ms) {
   return new Promise(resolve => {
     const start = performance.now();
     const step = now => {
-      const t = Math.min(1, (now - start) / ms);
-      const e = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
-      node.setAttribute('transform', `translate(${x1 + (x2 - x1) * e},${y1 + (y2 - y1) * e})`);
+      const t = ms > 0 ? Math.min(1, (now - start) / ms) : 1;
+      // Doğrusal: hız hat boyunca ve hatlar arasında sabit kalır.
+      node.setAttribute('transform', `translate(${x1 + (x2 - x1) * t},${y1 + (y2 - y1) * t})`);
       if (t < 1) requestAnimationFrame(step); else resolve();
     };
     requestAnimationFrame(step);

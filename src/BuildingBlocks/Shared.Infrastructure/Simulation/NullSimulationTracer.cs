@@ -8,9 +8,9 @@ public sealed class NullSimulationTracer : ISimulationTracer
     public static readonly NullSimulationTracer Instance = new();
 
     public Task TraceAsync(
-        string title,
+        TraceText title,
         string kind = TraceKinds.Step,
-        string? detail = null,
+        TraceText? detail = null,
         Guid? orderId = null,
         object? payload = null,
         string? messageType = null,

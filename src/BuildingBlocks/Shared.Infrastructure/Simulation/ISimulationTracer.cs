@@ -11,9 +11,9 @@ namespace Shared.Infrastructure.Simulation;
 public interface ISimulationTracer
 {
     Task TraceAsync(
-        string title,
+        TraceText title,
         string kind = TraceKinds.Step,
-        string? detail = null,
+        TraceText? detail = null,
         Guid? orderId = null,
         object? payload = null,
         string? messageType = null,

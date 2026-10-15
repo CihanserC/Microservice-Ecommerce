@@ -26,9 +26,9 @@ public sealed partial class SimulationTracer(
     };
 
     public Task TraceAsync(
-        string title,
+        TraceText title,
         string kind = TraceKinds.Step,
-        string? detail = null,
+        TraceText? detail = null,
         Guid? orderId = null,
         object? payload = null,
         string? messageType = null,
@@ -46,8 +46,10 @@ public sealed partial class SimulationTracer(
             Timestamp = DateTime.UtcNow,
             Service = options.Value.ServiceId,
             Kind = kind,
-            Title = title,
-            Detail = detail,
+            Title = title.Tr,
+            TitleEn = title.En,
+            Detail = detail?.Tr,
+            DetailEn = detail?.En,
             MessageType = messageType,
             Payload = payload is null ? null : SerializePayload(payload),
             // Trace kimliği burada, çağıranın Activity'si hâlâ aktifken alınır.
