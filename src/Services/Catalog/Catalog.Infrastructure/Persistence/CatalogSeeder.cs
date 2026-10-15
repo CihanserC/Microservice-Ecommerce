@@ -19,7 +19,7 @@ public static class CatalogSeeder
             {
                 Id = Guid.Parse("8a1c4f7e-0b1d-4c3a-9e57-1f0a2b3c4d01"),
                 Name = "Mekanik Klavye",
-                Description = "Bol stoklu ürün — mutlu yol senaryosu için.",
+                Description = "Bol stoklu ürün, mutlu yol senaryosu için.",
                 Price = 1899.90m,
                 Stock = 50
             },
@@ -27,7 +27,7 @@ public static class CatalogSeeder
             {
                 Id = Guid.Parse("8a1c4f7e-0b1d-4c3a-9e57-1f0a2b3c4d02"),
                 Name = "Kablosuz Mouse",
-                Description = "Ucuz ürün — ödeme limiti altında kalır.",
+                Description = "Ucuz ürün, ödeme limiti altında kalır.",
                 Price = 649.50m,
                 Stock = 25
             },
@@ -35,7 +35,7 @@ public static class CatalogSeeder
             {
                 Id = Guid.Parse("8a1c4f7e-0b1d-4c3a-9e57-1f0a2b3c4d03"),
                 Name = "4K Monitör",
-                Description = "Pahalı ve az stoklu — ödeme limitini aşmak için.",
+                Description = "Pahalı ve az stoklu, ödeme limitini aşmak için.",
                 Price = 14999.00m,
                 Stock = 3
             },
@@ -43,7 +43,7 @@ public static class CatalogSeeder
             {
                 Id = Guid.Parse("8a1c4f7e-0b1d-4c3a-9e57-1f0a2b3c4d04"),
                 Name = "Sınırlı Sürüm Kulaklık",
-                Description = "Stokta yok — stok yetersiz senaryosu için.",
+                Description = "Stokta yok, stok yetersiz senaryosu için.",
                 Price = 4299.00m,
                 Stock = 0
             });

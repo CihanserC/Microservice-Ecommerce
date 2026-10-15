@@ -76,7 +76,7 @@ export function applyStatic(root = document) {
 const REASON_PATTERNS = [
   [/Kart limiti yetersiz: tutar ([\d.,]+) ₺, limit ([\d.,]+) ₺\./g, 'Card limit exceeded: amount $1 ₺, limit $2 ₺.'],
   [/Banka ödemeyi reddetti \(simülasyon: her zaman başarısız\)\./g, 'The bank declined the payment (simulation: always fail).'],
-  [/Stok yetersiz — /g, 'Insufficient stock — '],
+  [/Stok yetersiz(?: —|:) /g, 'Insufficient stock: '],
   [/: istenen (\d+), stokta (\d+)/g, ': requested $1, in stock $2'],
   [/: katalogda yok/g, ': not in catalog'],
   [/Ödeme başarısız\./g, 'Payment failed.'],
@@ -108,7 +108,7 @@ const STRINGS = {
 
   'conn.connecting': L('Bağlanıyor…', 'Connecting…'),
   'conn.open': L('Canlı', 'Live'),
-  'conn.error': L('Bağlantı yok — yeniden deneniyor', 'Disconnected — retrying'),
+  'conn.error': L('Bağlantı yok, yeniden deneniyor', 'Disconnected, retrying'),
 
   'scn.title': L('Senaryolar', 'Scenarios'),
   'scn.hint': L('Tek tıkla sepeti doldurur, ödeme ayarını seçer ve checkout yapar.',
@@ -146,6 +146,10 @@ const STRINGS = {
   'pay.delay': L('Banka gecikmesi', 'Bank delay'),
   'pay.apply': L('Uygula', 'Apply'),
 
+  'demo.text': L('Demo modu: servisler tarayıcında simüle ediliyor; akış, saga ve gösterilen kod gerçek sistemle aynı.',
+    'Demo mode: the services are simulated in your browser; the flow, the saga and the code shown match the real system.'),
+  'demo.run': L('Gerçek sistemi çalıştır (Codespaces)', 'Run the real system (Codespaces)'),
+
   'arch.title': L('Mimari', 'Architecture'),
   'arch.fullscreen': L('Tam ekran', 'Full screen'),
   'arch.exitFullscreen': L('Küçült', 'Exit full screen'),
@@ -161,8 +165,8 @@ const STRINGS = {
     'Click a box to see what that part does and its related code files.'),
   'arch.about': L('{name} hakkında', 'About {name}'),
 
-  'saga.noOrder': L('— henüz sipariş yok', '— no order yet'),
-  'saga.order': L('— sipariş #{id}', '— order #{id}'),
+  'saga.noOrder': L('(henüz sipariş yok)', '(no order yet)'),
+  'saga.order': L('sipariş #{id}', 'order #{id}'),
   'saga.aria': L('Sipariş saga durum makinesi', 'Order saga state machine'),
   'saga.hint': L('Checkout yaptığında sipariş burada adım adım ilerler.', 'When you check out, the order moves through here step by step.'),
   'saga.reason': L('Sebep: {reason}', 'Reason: {reason}'),
@@ -228,7 +232,7 @@ const STRINGS = {
 
   'toast.requestFailed': L('İstek başarısız.', 'Request failed.'),
   'toast.checkout': L('202 Accepted: checkout başladı. Sipariş arka planda oluşuyor, saga\'yı izle.',
-    '202 Accepted: checkout started. The order is being created in the background — watch the saga.'),
+    '202 Accepted: checkout started. The order is being created in the background; watch the saga.'),
   'toast.stockInvalid': L('Stok 0 veya daha büyük bir tam sayı olmalı.', 'Stock must be a whole number of 0 or more.'),
   'toast.noProducts': L('Katalogda ürün yok.', 'There are no products in the catalog.'),
   'toast.noHappy': L('Stokta olan ve limit altında kalan bir ürün yok. Stok ekle.',

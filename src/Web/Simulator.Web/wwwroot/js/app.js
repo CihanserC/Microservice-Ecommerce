@@ -4,6 +4,7 @@ import { renderCode, escapeHtml } from './codeview.js';
 import { SERVICES, MESSAGES, KINDS, SAGA_STATES, INFRA_REFS, httpRef, safeJson } from './knowledge.js';
 import { ConceptBrowser } from './concept-view.js';
 import { t, tBoth, tx, getLang, setLang, onLangChange, applyStatic, money, localizeReason } from './i18n.js';
+import { DEMO, CODESPACES_URL, REPO_URL } from './runtime.js';
 
 const $ = sel => document.querySelector(sel);
 // 1× hızda paketin diyagramdaki hızı (viewBox birimi/ms). Gateway → servis hattı (~360 birim) ≈ 1,8 sn.
@@ -50,13 +51,7 @@ function eventDetail(ev) {
 // ------------------------------------------------------------------ iz akışı
 
 function connect() {
-  const source = new EventSource('/sim/events');
-  source.addEventListener('open', () => setConn('open'));
-  source.addEventListener('error', () => setConn('error'));
-  source.addEventListener('trace', e => {
-    const ev = safeJson(e.data);
-    if (ev) enqueue(ev);
-  });
+  api.subscribe(enqueue, setConn);
 }
 
 function setConn(s) {
@@ -253,7 +248,7 @@ function showEvent(ev, { expand = false } = {}) {
   $('#follow-order')?.addEventListener('click', () => focusOrder(ev.orderId));
 
   const refs = [];
-  if (ev.codeFile) refs.push({ label: t('det.traceLine'), path: ev.codeFile, line: ev.codeLine });
+  if (ev.codeFile) refs.push({ label: t('det.traceLine'), path: ev.codeFile, line: ev.codeLine, find: ev.codeFind });
   if (msg) refs.push(...msg.refs);
   if (ev.kind === 'http' || ev.kind === 'http-response') refs.push(...httpRef(ev), INFRA_REFS.http);
   if (ev.kind === 'publish' || ev.kind === 'consume') refs.push(INFRA_REFS[ev.kind]);
@@ -264,7 +259,7 @@ function showEvent(ev, { expand = false } = {}) {
 function showNode(id, { expand = true } = {}) {
   const info = SERVICES[id];
   state.detailView = { kind: 'node', id };
-  openDetail(`${tx(info.name)} — ${tx(info.sub)}`, { expand });
+  openDetail(`${tx(info.name)} (${tx(info.sub)})`, { expand });
   $('#detail-body').innerHTML = `
     <div class="explain">${escapeHtml(tx(info.summary))}</div>
     ${info.files.length ? `<h3>${escapeHtml(t('det.relatedCode'))}</h3>` : ''}`;
@@ -412,7 +407,7 @@ function renderOrders() {
         <td>${escapeHtml(o.userName)}</td>
         <td class="num">${money(o.totalPrice)}</td>
         <td><span class="status ${o.status}">${o.status}</span></td>
-        <td class="mono">${o.sagaState ?? '—'}</td>
+        <td class="mono">${o.sagaState ?? '-'}</td>
       </tr>`).join('');
     body.querySelectorAll('tr[data-id]').forEach(tr => {
       tr.addEventListener('click', () => focusOrder(tr.dataset.id));
@@ -744,7 +739,16 @@ function bind() {
   });
 }
 
+function setupDemoBanner() {
+  if (!DEMO) return;
+  document.body.classList.add('demo');
+  $('#demo-banner').hidden = false;
+  $('#demo-run').href = CODESPACES_URL;
+  $('#demo-repo').href = REPO_URL;
+}
+
 async function init() {
+  setupDemoBanner();
   applyStatic();
   concepts = new ConceptBrowser($('#concepts-body'));
   bind();

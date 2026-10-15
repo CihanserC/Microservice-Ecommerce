@@ -42,7 +42,12 @@ builder.Services.AddMassTransit(bus =>
 var app = builder.Build();
 
 app.UseDefaultFiles();
-app.UseStaticFiles();
+// Arayüz ES modüllerinden oluşur; tarayıcı bir kısmını eski önbellekten, bir kısmını yeni sürümden
+// alırsa modüller birbirini bulamaz. "no-cache" her seferinde ETag ile doğrulatır (değişmediyse 304).
+app.UseStaticFiles(new StaticFileOptions
+{
+    OnPrepareResponse = ctx => ctx.Context.Response.Headers.CacheControl = "no-cache"
+});
 
 var sim = app.MapGroup("/sim");
 

@@ -50,7 +50,7 @@ public sealed class ReserveStockConsumer(
 
         if (shortages.Count > 0)
         {
-            var reason = "Stok yetersiz — " + string.Join("; ", shortages);
+            var reason = "Stok yetersiz: " + string.Join("; ", shortages);
             await tracer.TraceAsync(
                 new("Stok yetersiz, hiçbir kalem ayrılmadı", "Insufficient stock, no item was reserved"),
                 detail: reason,
@@ -86,8 +86,8 @@ public sealed class ReserveStockConsumer(
         await tracer.TraceAsync(
             new("Stok düşüldü ve rezervasyon kaydedildi", "Stock deducted and reservation saved"),
             TraceKinds.Database,
-            detail: new("Products.Stock azaltıldı, StockReservations'a satır eklendi, StockReservedEvent outbox'a yazıldı — hepsi tek transaction.",
-                "Products.Stock was decreased, a StockReservations row was added and StockReservedEvent was written to the outbox — all in one transaction."),
+            detail: new("Products.Stock azaltıldı, StockReservations'a satır eklendi, StockReservedEvent outbox'a yazıldı; hepsi tek transaction.",
+                "Products.Stock was decreased, a StockReservations row was added and StockReservedEvent was written to the outbox, all in one transaction."),
             orderId: message.OrderId,
             payload: message.Items.Select(i => new
             {

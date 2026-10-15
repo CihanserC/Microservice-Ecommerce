@@ -32,7 +32,7 @@ stateDiagram-v2
 | `AwaitingStock` | Catalog's stock reply | `StockReserved` → move to payment; `StockReservationFailed` → cancel |
 | `AwaitingPayment` | Payment's result | `PaymentCompleted` → done; `PaymentFailed` → compensate |
 | `Compensating` | The stock being released | `StockReleased` → cancel |
-| `Completed` / `Cancelled` | — | Final states. The row isn't deleted, so the simulator and `GET /orders` can show the outcome. |
+| `Completed` / `Cancelled` | Nothing | Final states. The row isn't deleted, so the simulator and `GET /orders` can show the outcome. |
 
 ### Happy path
 

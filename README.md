@@ -4,6 +4,16 @@ A minimalist, production-ready microservices skeleton for an e-commerce domain d
 
 It ships with an **interactive simulator**: a web UI that animates every HTTP call, message, database write and saga transition as it happens, and opens the exact line of code that produced it.
 
+## Try it without installing anything
+
+| | What runs | Needs |
+|---|---|---|
+| **[Live demo](https://cihanserc.github.io/Microservice-Ecommerce/)** | The simulator on GitHub Pages. The services are simulated in your browser with the same messages, saga, business rules and traces as the real system; the code viewer opens this repo's real source files. | Nothing |
+| [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/CihanserC/Microservice-Ecommerce?quickstart=1) | The real system (all services, PostgreSQL, Redis, RabbitMQ) in a cloud dev container. The simulator opens by itself on port 5000 once the images are built (a few minutes the first time). | A GitHub account (Codespaces has a monthly free quota) |
+| Locally | `docker compose up --build`, then http://localhost:5000 | Docker Desktop and git |
+
+The demo is published by [`.github/workflows/pages.yml`](.github/workflows/pages.yml) on every push to `main`; the Codespaces setup is in [`.devcontainer/devcontainer.json`](.devcontainer/devcontainer.json). Add `?demo=1` to a running simulator's URL to compare the browser-simulated backend with the real one.
+
 Lesson-style walkthroughs:
 
 - [docs/architecture-overview.md](docs/architecture-overview.md): why the architecture is shaped this way.

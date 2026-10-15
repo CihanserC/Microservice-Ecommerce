@@ -81,8 +81,8 @@ export const SERVICES = {
   order: {
     name: 'Order.API',
     sub: L('DDD + Saga orkestratörü', 'DDD + saga orchestrator'),
-    summary: L('İki rolü var: (1) Sipariş kaydı — CustomerOrder aggregate\'i. (2) Saga orkestratörü — OrderStateMachine her siparişin sürecini yönetir, hangi servise hangi komutun gideceğine karar verir.',
-      'It has two roles: (1) the order record — the CustomerOrder aggregate; (2) the saga orchestrator — OrderStateMachine runs each order\'s process and decides which command goes to which service.'),
+    summary: L('İki rolü var: (1) Sipariş kaydı: CustomerOrder aggregate\'i. (2) Saga orkestratörü: OrderStateMachine her siparişin sürecini yönetir, hangi servise hangi komutun gideceğine karar verir.',
+      'It has two roles: (1) the order record: the CustomerOrder aggregate; (2) the saga orchestrator: OrderStateMachine runs each order\'s process and decides which command goes to which service.'),
     files: [
       { label: L('Saga (state machine)', 'Saga (state machine)'), path: P.stateMachine, find: 'Initially(' },
       { label: L('Checkout → sipariş', 'Checkout → order'), path: P.checkoutConsumer, find: 'new OrderCreatedEvent' },

@@ -380,14 +380,17 @@ dialog::backdrop { background: rgb(0 0 0 / .55); }
    başlığı ve "Sonraki adım" butonu her zaman görünür. */
 @media (max-width: 900px) {
   body { height: auto; overflow: visible; display: block; padding-bottom: calc(96px + env(safe-area-inset-bottom)); }
-  .topbar { position: sticky; top: 0; padding: 8px 12px; gap: 8px; flex-wrap: nowrap; flex-direction: column; align-items: stretch; }
+  .topbar { position: static; padding: 8px 12px 10px; gap: 8px; flex-wrap: nowrap; flex-direction: column; align-items: stretch; }
   .brand { gap: 10px; }
   .brand p { display: none; }
   .brand-mark { width: 30px; height: 30px; }
   .brand h1 { font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .controls { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
-  .controls::-webkit-scrollbar { display: none; }
+  /* Bütün butonlar görünür kalsın: yana kaydırmak yerine satır kaydırılır. */
+  .controls { flex-wrap: wrap; gap: 6px; }
   .controls > * { flex-shrink: 0; }
+  .controls .conn > span, .controls .inline > span { display: none; }
+  .controls .conn { margin-right: 0; padding: 0 4px; }
+  .controls .btn, .controls .seg button, .controls select { padding-left: 10px; padding-right: 10px; font-size: 13px; }
   .controls .next-step { display: none; }
   .btn, .seg button, select { min-height: 36px; }
 
@@ -465,3 +468,17 @@ body.mode-step .diagram-card.is-fullscreen .fs-only { display: inline-flex !impo
 .diagram-card.is-fullscreen > .hint { display: none; }
 .diagram-card:fullscreen { background: var(--card); }
 body.diagram-fullscreen { overflow: hidden; }
+
+/* ---------- Demo şeridi (GitHub Pages) ---------- */
+.demo-banner {
+  flex-shrink: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px;
+  padding: 7px 20px; font-size: 12.5px; color: var(--text-2);
+  background: color-mix(in srgb, var(--c-saga) 10%, var(--bg)); border-bottom: 1px solid var(--line);
+}
+.demo-tag { font-size: 10.5px; font-weight: 700; letter-spacing: .08em; padding: 1px 7px; border-radius: 99px; color: var(--c-saga); border: 1px solid color-mix(in srgb, var(--c-saga) 50%, transparent); }
+.demo-text { flex: 1 1 260px; min-width: 0; }
+.demo-banner a.btn { text-decoration: none; color: inherit; }
+.demo-banner a.btn.primary { color: #06121f; }
+@media (max-width: 900px) {
+  .demo-banner { padding: 6px 12px; }
+}

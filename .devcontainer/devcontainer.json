@@ -1,0 +1,26 @@
+{
+  // GitHub Codespaces: "Open in Codespaces" ile bütün sistem bulutta ayağa kalkar
+  // ve simülatör (port 5000) tarayıcıda kendiliğinden açılır. Yerelde Docker gerekmez.
+  "name": "Microservice E-Commerce",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+    "ghcr.io/devcontainers/features/dotnet:2": { "version": "10.0" }
+  },
+  "hostRequirements": { "cpus": 4, "memory": "8gb" },
+
+  // Her başlatmada konteynerleri kaldırır; ilk seferde imajlar derlenir (birkaç dakika).
+  "postStartCommand": "docker compose up -d --build",
+
+  "forwardPorts": [5000, 15672],
+  "portsAttributes": {
+    "5000": { "label": "Simulator (gateway)", "onAutoForward": "openBrowser" },
+    "15672": { "label": "RabbitMQ management", "onAutoForward": "silent" }
+  },
+  "otherPortsAttributes": { "onAutoForward": "silent" },
+
+  "customizations": {
+    "codespaces": { "openFiles": ["README.md"] },
+    "vscode": { "extensions": ["ms-dotnettools.csdevkit", "ms-azuretools.vscode-docker"] }
+  }
+}

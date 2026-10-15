@@ -1,5 +1,5 @@
 // Kaynak kod görüntüleyici: dosyayı /sim/source'tan alır, renklendirir, ilgili satırı işaretler.
-import { background } from './api.js';
+import { fetchSource } from './api.js';
 import { t, tx } from './i18n.js';
 
 const cache = new Map();
@@ -13,14 +13,14 @@ const TOKEN = /(\/\/.*$)|(\$?@?"(?:[^"\\]|\\.)*")|('(?:[^'\\]|\\.)')|\b(\d+(?:\.
 
 async function load(path) {
   if (!cache.has(path)) {
-    cache.set(path, background(`/sim/source?path=${encodeURIComponent(path)}`, { raw: true })
+    cache.set(path, fetchSource(path)
       .catch(err => { cache.delete(path); throw err; }));
   }
   return cache.get(path);
 }
 
 /**
- * refs: [{ label, path, line?, find? }] — birden fazlaysa sekme olarak gösterilir. label düz metin ya da {tr, en} olabilir.
+ * refs: [{ label, path, line?, find? }]; birden fazlaysa sekme olarak gösterilir. label düz metin ya da {tr, en} olabilir.
  */
 export async function renderCode(container, refs) {
   container.innerHTML = '';

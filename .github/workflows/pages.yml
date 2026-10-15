@@ -1,0 +1,57 @@
+# Simülatörün demo modunu GitHub Pages'e yayınlar.
+# Sayfa statiktir: servisler tarayıcıda simüle edilir (wwwroot/js/demo-backend.js) ve
+# kod görüntüleyici için src/ altındaki kaynak dosyalar sitenin source/ klasörüne kopyalanır.
+name: Deploy demo to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - '.github/workflows/pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Assemble static site
+        run: |
+          mkdir -p _site/source
+          cp -r src/Web/Simulator.Web/wwwroot/. _site/
+          # Kod görüntüleyicinin açtığı kaynak dosyalar (derleme çıktıları hariç).
+          (cd src && find . \( -name bin -o -name obj \) -prune -o -type f \
+              \( -name '*.cs' -o -name '*.json' -o -name '*.csproj' \) -print) |
+            while read -r f; do
+              mkdir -p "_site/source/$(dirname "$f")"
+              cp "src/$f" "_site/source/$f"
+            done
+          touch _site/.nojekyll
+          echo "Files: $(find _site -type f | wc -l)"
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
