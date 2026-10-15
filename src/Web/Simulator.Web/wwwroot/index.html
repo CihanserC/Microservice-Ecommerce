@@ -26,6 +26,10 @@
     <div class="controls" role="toolbar" data-i18n-aria="ctl.toolbar">
       <span id="conn" class="conn" data-state="connecting"><i></i><span data-i18n="conn.connecting">Bağlanıyor…</span></span>
 
+      <button type="button" class="btn icon-btn play-toggle" aria-pressed="false">
+          <svg class="ico ico-pause" viewBox="0 0 16 16" aria-hidden="true"><path d="M5.5 3.5v9M10.5 3.5v9"/></svg>
+          <svg class="ico ico-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3.2v9.6L12.6 8z"/></svg>
+        </button>
       <div class="seg" role="radiogroup" data-i18n-aria="ctl.mode">
         <button type="button" data-mode="auto" aria-pressed="true" data-i18n="ctl.auto">Otomatik</button>
         <button type="button" data-mode="step" aria-pressed="false" data-i18n="ctl.step">Adım adım</button>
@@ -35,7 +39,7 @@
       </button>
 
       <label class="inline"><span data-i18n="ctl.speed">Hız</span>
-        <select id="speed">
+        <select id="speed" class="speed-select">
           <option value="0.1">0.1×</option>
           <option value="0.5">0.5×</option>
           <option value="1" selected>1×</option>
@@ -134,6 +138,8 @@
         </div>
       </section>
 
+      <div class="splitter splitter-h" role="separator" aria-orientation="horizontal" tabindex="0" data-split="detail" data-i18n-title="layout.resizeRows" data-i18n-aria="layout.resizeRows"></div>
+
       <section class="card timeline-card">
         <div class="card-head">
           <h2 data-i18n="tl.title">Akış</h2>
@@ -143,6 +149,8 @@
         <p id="timeline-empty" class="hint" data-i18n="tl.empty">Henüz iz yok. Bir senaryo çalıştır.</p>
       </section>
     </aside>
+
+    <div class="splitter splitter-v" role="separator" aria-orientation="vertical" tabindex="0" data-split="left" data-i18n-title="layout.resizeCols" data-i18n-aria="layout.resizeCols"></div>
 
     <!-- SAĞ: senaryolar, mimari, saga, siparişler -->
     <section class="col col-center">
@@ -171,6 +179,18 @@
         <div class="card-head">
           <h2 data-i18n="arch.title">Mimari</h2>
           <div class="diagram-tools">
+            <button type="button" class="btn icon-btn play-toggle small fs-only-flex" aria-pressed="false">
+              <svg class="ico ico-pause" viewBox="0 0 16 16" aria-hidden="true"><path d="M5.5 3.5v9M10.5 3.5v9"/></svg>
+              <svg class="ico ico-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3.2v9.6L12.6 8z"/></svg>
+            </button>
+            <select class="speed-select fs-only-flex" data-i18n-aria="ctl.speed" data-i18n-title="ctl.speed">
+              <option value="0.1">0.1×</option>
+              <option value="0.5">0.5×</option>
+              <option value="1" selected>1×</option>
+              <option value="2">2×</option>
+              <option value="4">4×</option>
+              <option value="0" data-i18n="ctl.instant">Anında</option>
+            </select>
             <button type="button" class="btn small primary next-step fs-only" disabled data-i18n-title="ctl.nextTitle">
               <span data-i18n="ctl.next">Sonraki adım</span> <span class="pill queue-count">0</span>
             </button>

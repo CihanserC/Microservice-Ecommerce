@@ -5,6 +5,8 @@ import { SERVICES, MESSAGES, KINDS, SAGA_STATES, INFRA_REFS, httpRef, safeJson }
 import { ConceptBrowser } from './concept-view.js';
 import { t, tBoth, tx, getLang, setLang, onLangChange, applyStatic, money, localizeReason } from './i18n.js';
 import { DEMO, CODESPACES_URL, REPO_URL } from './runtime.js';
+import { isPaused, setPaused, onPauseChange, untilResumed, setRate } from './clock.js';
+import { setupResizers } from './resize.js';
 
 const $ = sel => document.querySelector(sel);
 // 1× hızda paketin diyagramdaki hızı (viewBox birimi/ms). Gateway → servis hattı (~360 birim) ≈ 1,8 sn.
@@ -87,13 +89,16 @@ async function pump() {
         state.stepResolver = null;
         if (!state.queue.length) break;
       }
+      // Durdurulduysa sıradaki ize geçmeden önce devam edilmesini bekle.
+      await untilResumed();
       const ev = state.queue.shift();
       updateQueueUi();
 
-      // Hız yalnızca kullanıcının seçimine bağlıdır; kuyruk birikse bile hızlanılmaz ki
-      // bütün hatlarda paket hızı her zaman aynı kalsın. Biriken izler sırayla oynatılır.
-      const pxPerMs = PX_PER_MS * state.speed;
-      const idleMs = state.speed > 0 ? IDLE_MS / state.speed : 0;
+      // Süreler 1× hıza göredir; seçilen hız simülasyon saatini (clock.js) hızlandırır ya da
+      // yavaşlatır, böylece hız değişikliği yoldaki pakete de anında yansır. Kuyruk birikse bile
+      // kendiliğinden hızlanılmaz. "Anında" seçiliyse paket hiç çizilmez.
+      const pxPerMs = state.speed === 0 ? 0 : PX_PER_MS;
+      const idleMs = state.speed === 0 ? 0 : IDLE_MS;
 
       addTimeline(ev);
       if (state.mode === 'step') showEvent(ev);
@@ -642,6 +647,7 @@ function rerenderAll() {
   renderOrders();
   diagram.relabel();
   renderFullscreenButton();
+  renderPauseButtons();
   concepts.render();
 }
 
@@ -682,6 +688,33 @@ function renderFullscreenButton() {
   button.querySelector('.fs-label').textContent = t(on ? 'arch.exitFullscreen' : 'arch.fullscreen');
 }
 
+// ------------------------------------------------------------------ hız
+
+/** Üst bardaki ve tam ekrandaki hız seçicileri aynı değeri gösterir. */
+function setSpeed(speed) {
+  state.speed = speed;
+  // "Anında": yoldaki paket de hemen hedefine varsın.
+  setRate(speed === 0 ? 1e6 : speed);
+  document.querySelectorAll('.speed-select').forEach(s => (s.value = String(speed)));
+}
+
+// ------------------------------------------------------------------ durdur / devam et
+
+function togglePause() {
+  setPaused(!isPaused());
+}
+
+function renderPauseButtons() {
+  const paused = isPaused();
+  document.body.classList.toggle('paused', paused);
+  document.querySelectorAll('.play-toggle').forEach(b => {
+    b.setAttribute('aria-pressed', String(paused));
+    const label = t(paused ? 'ctl.resume' : 'ctl.pause');
+    b.title = label;
+    b.setAttribute('aria-label', label);
+  });
+}
+
 // ------------------------------------------------------------------ çekmece
 
 function setDrawer(open) {
@@ -702,13 +735,15 @@ function bind() {
   onLangChange(rerenderAll);
 
   document.querySelectorAll('.next-step').forEach(b => b.addEventListener('click', nextStep));
+  document.querySelectorAll('.play-toggle').forEach(b => b.addEventListener('click', togglePause));
+  onPauseChange(renderPauseButtons);
   $('#open-drawer').addEventListener('click', () => setDrawer(!$('#drawer').classList.contains('open')));
   $('#close-drawer').addEventListener('click', () => setDrawer(false));
   $('#drawer-backdrop').addEventListener('click', () => setDrawer(false));
   $('#diagram-fullscreen').addEventListener('click', toggleDiagramFullscreen);
   document.addEventListener('fullscreenchange', () => setDiagramFullscreen(document.fullscreenElement === diagramCard()));
   $('#sheet-toggle').addEventListener('click', () => setSheet($('#detail').classList.contains('collapsed')));
-  $('#speed').addEventListener('change', e => (state.speed = Number(e.target.value)));
+  document.querySelectorAll('.speed-select').forEach(s => s.addEventListener('change', e => setSpeed(Number(e.target.value))));
   $('#clear').addEventListener('click', clearAll);
   $('#filter-order').addEventListener('change', refreshFilter);
   $('#detail-close').addEventListener('click', clearDetail);
@@ -729,6 +764,10 @@ function bind() {
 
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape' && $('#drawer').classList.contains('open')) return setDrawer(false);
+    if (e.key === ' ' && !e.target.closest('input, select, textarea, button, a, dialog, [role="separator"]')) {
+      e.preventDefault();
+      return togglePause();
+    }
     if (e.key === 'Escape' && isDiagramFullscreen() && !document.fullscreenElement) return setDiagramFullscreen(false);
     if ((e.key === 'f' || e.key === 'F') && !e.ctrlKey && !e.metaKey && !e.altKey
       && !e.target.closest('input, select, textarea, dialog')) return toggleDiagramFullscreen();
@@ -753,6 +792,8 @@ async function init() {
   concepts = new ConceptBrowser($('#concepts-body'));
   bind();
   buildSaga();
+  setupResizers();
+  renderPauseButtons();
   clearDetail();
   renderConn();
   renderBasket();

@@ -482,3 +482,46 @@ body.diagram-fullscreen { overflow: hidden; }
 @media (max-width: 900px) {
   .demo-banner { padding: 6px 12px; }
 }
+
+/* ---------- Durdur / devam et ---------- */
+.icon-btn { padding: 6px 9px; }
+.icon-btn .ico { width: 16px; height: 16px; }
+.icon-btn.small .ico { width: 14px; height: 14px; }
+.ico-play path { fill: currentColor; stroke: none; }
+.play-toggle .ico-play, .play-toggle[aria-pressed="true"] .ico-pause { display: none; }
+.play-toggle[aria-pressed="true"] .ico-play { display: inline; }
+.play-toggle[aria-pressed="true"] { color: var(--c-msg); border-color: color-mix(in srgb, var(--c-msg) 60%, var(--line-2)); background: color-mix(in srgb, var(--c-msg) 12%, var(--card-2)); }
+.fs-only-flex { display: none !important; }
+.diagram-card.is-fullscreen .fs-only-flex { display: inline-flex !important; }
+body.paused .diagram-card .card-head h2::after {
+  content: "❚❚"; margin-left: 8px; font-size: 10px; letter-spacing: -1px; color: var(--c-msg); vertical-align: 2px;
+}
+
+/* ---------- Boyutlandırılabilir paneller (yalnızca masaüstü) ---------- */
+.splitter { display: none; }
+@media (min-width: 901px) {
+  .layout { --left-w: 400px; grid-template-columns: var(--left-w) 16px minmax(0, 1fr); column-gap: 0; }
+  .col-left { gap: 0; }
+  .detail { flex: var(--detail-frac, 0.6) 1 0; }
+  .timeline-card { flex: calc(1 - var(--detail-frac, 0.6)) 1 0; }
+
+  .splitter { display: block; position: relative; flex-shrink: 0; touch-action: none; outline: none; }
+  .splitter::after {
+    content: ""; position: absolute; border-radius: 99px; background: transparent; transition: background .15s;
+  }
+  .splitter-v { cursor: col-resize; }
+  .splitter-v::after { top: 0; bottom: 0; left: 6px; width: 4px; }
+  .splitter-h { height: 14px; cursor: row-resize; }
+  .splitter-h::after { left: 0; right: 0; top: 5px; height: 4px; }
+  .splitter:hover::after, .splitter:focus-visible::after { background: var(--line-2); }
+  .splitter.dragging::after { background: var(--c-http); }
+
+  body.resizing { user-select: none; }
+  body.resizing-x, body.resizing-x * { cursor: col-resize !important; }
+  body.resizing-y, body.resizing-y * { cursor: row-resize !important; }
+}
+@media (min-width: 901px) and (max-width: 1100px) {
+  .layout { --left-w: 330px; }
+}
+
+.diagram-tools select { padding: 3px 6px; font-size: 12px; }

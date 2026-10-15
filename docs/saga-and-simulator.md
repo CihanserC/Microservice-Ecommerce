@@ -138,7 +138,9 @@ On a computer the page always fits the screen and never scrolls: the left column
 - **Step mode** plays each trace one at a time (→ key). The detail panel shows the step's explanation, the message body and the relevant line of code.
 - **Speed** goes from 0.1× (slow motion) up to 4× or instant. Packets in the diagram move at the same constant speed on every line, so a long hop along the RabbitMQ bus simply takes longer than a short hop to a database. The simulator never speeds up on its own to catch up with a backlog; queued traces are played in order at the chosen speed (use "Instant" or "Clear" to skip ahead).
 - **Language**: the TR / EN switch in the top bar changes every text on the page instantly, including the traces already in the flow and the open detail panel. The choice is remembered in the browser.
-- **Full screen**: the button on the Architecture card (or the F key) shows the diagram full screen; Esc or F returns. In step mode the "Next step" button stays available there.
+- **Pause / resume**: the ‖ / ▶ button next to the mode switch (or the Space key) freezes the packet where it is and continues from there. Pausing and the speed setting both drive one simulation clock (`js/clock.js`), so a speed change also applies to a packet already in flight.
+- **Full screen**: the button on the Architecture card (or the F key) shows the diagram full screen; Esc or F returns. Pause / resume, the speed selector and, in step mode, "Next step" are shown at the top in full screen only.
+- **Resizable panels** (desktop only): drag the divider between the two columns or between "What is happening?" and the flow list; double-click a divider to reset. The sizes are remembered in the browser.
 - **Clicking a box in the diagram** opens that service's role and its key files.
 - **The Concepts window** is a searchable library of microservice concepts (API Gateway, BFF, saga, outbox, circuit breaker, bulkhead and more). Search on the left, read the page on the right; every page ends with how the concept appears in this project.
 

@@ -1,6 +1,7 @@
 // Mimari diyagramı (SVG) ve üzerinde akan "paket" animasyonları.
 import { SERVICES } from './knowledge.js';
 import { t, tx } from './i18n.js';
+import { now, wait } from './clock.js';
 
 const NS = 'http://www.w3.org/2000/svg';
 
@@ -221,9 +222,9 @@ function el(name, attrs = {}) {
 
 function animate(node, [x1, y1], [x2, y2], ms) {
   return new Promise(resolve => {
-    const start = performance.now();
-    const step = now => {
-      const t = ms > 0 ? Math.min(1, (now - start) / ms) : 1;
+    const start = now();
+    const step = () => {
+      const t = ms > 0 ? Math.min(1, (now() - start) / ms) : 1;
       // Doğrusal: hız hat boyunca ve hatlar arasında sabit kalır.
       node.setAttribute('transform', `translate(${x1 + (x2 - x1) * t},${y1 + (y2 - y1) * t})`);
       if (t < 1) requestAnimationFrame(step); else resolve();
@@ -232,4 +233,3 @@ function animate(node, [x1, y1], [x2, y2], ms) {
   });
 }
 
-export function wait(ms) { return new Promise(r => setTimeout(r, ms)); }

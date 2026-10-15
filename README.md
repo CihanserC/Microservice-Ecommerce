@@ -119,7 +119,9 @@ Migrations run on startup, and Catalog seeds four products with stock levels cho
 - **Store & settings drawer** (☰): the catalog, basket and payment settings slide in from the left.
 - **Full screen diagram**: the ⛶ button on the Architecture card (or the F key) shows the diagram full screen; step mode keeps its "Next step" button there.
 - **Mobile**: the layout stacks on phones and the explanation becomes an always-visible bottom sheet.
-- **Speed**: from 0.1× slow motion up to 4× or instant.
+- **Speed**: from 0.1× slow motion up to 4× or instant; a change applies immediately, even to a packet already in flight.
+- **Pause / resume** (‖ / ▶ next to the mode switch, or the Space key) freezes the animation where it is.
+- **Resizable panels** on desktop: drag the divider between the columns, or between "What is happening?" and the flow; double-click resets.
 - **Concepts**: a searchable, bilingual library of microservice concepts (API Gateway, BFF, saga, outbox, circuit breaker, bulkhead, service discovery, strangler fig and more), each tied back to this codebase.
 - **Click any box** in the diagram to see that component's responsibility and key files.
 - **Catalog / basket / payment panels**: edit stock, build a basket by hand, and change the payment rules or bank delay.
